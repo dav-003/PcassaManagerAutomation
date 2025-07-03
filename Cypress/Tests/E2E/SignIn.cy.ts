@@ -5,7 +5,7 @@ import {SignInSelectors} from "../../Fixtures/Selectors/SignInSelectors";
 
 describe('Sign in Pcassa', () => {
 
-  context.only('Negative cases', () => {
+  context('Negative cases', () => {
     beforeEach(() => {
       cy.visit('/')
     })
@@ -29,6 +29,25 @@ describe('Sign in Pcassa', () => {
   context('Positive cases', () => {
     beforeEach(() => {
       cy.visit('/')
+    })
+    it('Should check language change work', () => {
+      SignInSelectors.signInTitle().should('have.text', 'Մուտք')
+      SignInSelectors.languageButton().click()
+      SignInSelectors.languageDropdown().should('be.visible')
+      SignInSelectors.englishLanguage().click()
+      SignInSelectors.signInTitle().should('have.text', 'Login')
+      SignInSelectors.languageButton().click()
+      SignInSelectors.languageDropdown().should('be.visible')
+      SignInSelectors.russianLanguage().click()
+      SignInSelectors.signInTitle().should('have.text', 'Логин')
+    })
+    it('Should open pcassa am for free trial', () => {
+      cy.get('a[href="https://pcassa.am"]')
+          .invoke('removeAttr', 'target')
+          .click()
+      cy.origin('https://www.pcassa.am', () => {
+        cy.url().should('include', 'www.pcassa.am')
+      })
     })
     it('Should sign in', () => {
       SignInMethods.SignIn(SignInGenerators.User4004.username,SignInGenerators.User4004.password)

@@ -8,6 +8,7 @@ export class SignInMethods {
     SignInMethods.OpenSignInModal()
     SignInMethods.FillSignIn({username,password})
     SignInSelectors.signInButton().click()
+    SignInSelectors.homePageCaption().should('be.visible')
   }
 
   static OpenSignInModal = () => {

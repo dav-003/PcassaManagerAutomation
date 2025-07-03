@@ -33,4 +33,8 @@ export class SignInSelectors {
   static emptyFieldErrorMessage = () => cy.get('[class*="error_"]:contains("Դատարկ դաշտ")')
 
   static wrongCredentialsErrorMessage = () => cy.get('.Toastify__toast-body > :nth-child(2)')
+
+  static homePageCaption = () => cy.get('[class*=\'title\']:contains("Գլխավոր")')
+
+  static signInTitle = () => cy.get('[class*=\'mb-[50px]\'] > h3')
 }
