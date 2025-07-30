@@ -24,9 +24,25 @@ export class ProductsSelectors {
 
     static deletedProductsButton = () => cy.get('[class*=\'product_tools\'] [class*=\'_tools\'] button[type="button"]').eq(2)
 
-    static deletedProductsGroup = () => cy.get('#groups_tree [class*=\'_group_\']')
-
     static groupsTree = () => cy.get('#groups_tree')
+
+    static groupsTreeGroups = () => cy.get('#groups_tree [class*="_subgroup_"]')
+
+    static deletedGroup = () => cy.get('[class*="_groups_tree"] [class*="_delete_product"]')
+
+    static groupRightClickModalDeleteOption = () => cy.get('#\\:r4ap\\: > :nth-child(4)')
+
+    static groupRightClickModalRenameOption = () => cy.get('#\\:r49p\\: > :nth-child(2)')
+
+    static groupRightClickModalAddSubgroupOption = () => cy.get('#\\:r49p\\: > :nth-child(1)')
+
+    static groupRightClickModalMoveOption = () => cy.get('#\\:r49p\\: > :nth-child(3)')
+
+    static deleteNotificationModal = () => cy.get('[class*=_delete_notification_]')
+
+    static deleteNotificationModalDeleteOption = () => cy.get('[class*=_delete_btn] > .bg-gray-900')
+
+    static deleteNotificationModalCancelOption = () => cy.get('[class*=_delete_btn] > .text-gray-900')
 
     static groupSectionCloseButton = () => cy.get('[class=\'flex gap-3 items-center\'] button')
 

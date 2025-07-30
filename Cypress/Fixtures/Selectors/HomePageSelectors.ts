@@ -87,93 +87,82 @@ export class HomePageSelectors {
 
     static sidebarMenu = () => cy.get('[class*=\'_sidebar_menu\']')
 
-    static sidebarHomePageButton = () => cy.get('[class*=\'_menu_title\'] + [class*=_menu_item]')
+    static sidebarHomePageButton = () => cy.get('[class*=_sidebar_menu_] > :nth-child(2)')
 
-    static sidebarProductsButton = () => cy.get('[class*=\'_menu_title\'] + [class*=_menu_item] + [class*=_menu_item]')
+    static sidebarProductsButton = () => cy.get('[class*=_sidebar_menu_] > :nth-child(3)')
 
-    static sidebarListsButton = () => cy.get('[class*=\'_menu_title\'] + [class*=_menu_item] + [class*=_menu_item] + [class]')
+    static sidebarCalculationButton = () => cy.get('[class*=_sidebar_menu_] > :nth-child(4)')
 
-    static sidebarListsUnitOfMeasurementsButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(0)
+    static sidebarListsButton = () => cy.get('[class*=_sidebar_menu_] > :nth-child(5) > .flex')
 
-    static sidebarListsCategoriesButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(1)
+    static sidebarListsUnitOfMeasurementsButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(1) > a')
 
-    static sidebarListsPaymentListButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(2)
+    static sidebarListsCategoriesButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(2) > a')
 
-    static sidebarListsWarehousesButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(3)
+    static sidebarListsPaymentListButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(3) > a')
 
-    static sidebarListsCashRegisterTypesButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(4)
+    static sidebarListsWarehousesButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(4) > a')
 
-    static sidebarListsProductColorButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(5)
+    static sidebarListsCashRegisterTypesButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(5) > a')
 
-    static sidebarListsSizeButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(6)
+    static sidebarListsProductColorButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(6) > a')
 
-    static sidebarListsCurrenciesButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(7)
+    static sidebarListsSizeButton = () => cy.get(':nth-child(5) > .overflow-hidden > .block > :nth-child(7) > a')
 
-    static sidebarListsDiscountsButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(8)
+    static sidebarListsCurrenciesButton = () => cy.get(':nth-child(8) > a')
 
-    static sidebarListsPartnersButton = () => cy.get('[class*=_menu_item] + [class*=_menu_item] + [class] [class*="_page_1"]').eq(9)
+    static sidebarListsDiscountsButton = () => cy.get(':nth-child(9) > a')
 
-    static sidebarInvoicesButton = () => cy.get('[class*=\'_accordion\'] button[type=\'button\']').eq(1)
+    static sidebarListsPartnersButton = () => cy.get(':nth-child(10) > a')
 
-    static sidebarInvoicesListOfInvoicesButton = () => cy.get("[class*=\'_page_1\'] [href=\'/list-of-invoices\']")
+    static sidebarInvoicesButton = () => cy.get(':nth-child(7) > .flex')
 
-    static sidebarInvoicesPurchaseOrderButton = () => cy.get("[class*='_page_1'] [href='/create-receipt-invoice']")
+    static sidebarInvoicesListOfInvoicesButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(1) > a")
 
-    static sidebarInvoicesWithdrawalButton = () => cy.get("[class*='_page_1'] [href='/create-withdrawal-invoice']")
+    static sidebarInvoicesPurchaseOrderButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(2) > a")
 
-    static sidebarInvoicesWriteOffButton = () => cy.get("[class*='_page_1'] [href='/create-write-off-invoice']")
+    static sidebarInvoicesWithdrawalButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(3) > a")
 
-    static sidebarInvoicesInternalTransferButton = () => cy.get("[class*='_page_1'] [href='/create-internal-transfer-invoice']")
+    static sidebarInvoicesWriteOffButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(4) > a")
 
-    static sidebarInvoicesReturnToProviderButton = () => cy.get("[class*='_page_1'] [href='/create-return-to-provider-invoice']")
+    static sidebarInvoicesInternalTransferButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(5) > a")
 
-    static sidebarInvoicesBuyerReturnButton = () => cy.get("[class*='_page_1'] [href='/create-return-to-buyer-invoice']")
+    static sidebarInvoicesReturnToProviderButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(6) > a")
 
-    static sidebarCashOrderButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(2)
+    static sidebarInvoicesBuyerReturnButton = () => cy.get(":nth-child(7) > .overflow-hidden > .block > :nth-child(7) > a")
 
-    static sidebarCashOrderListOfCashOrdersButton = () => cy.get("[class*='_page_1'] [href='/list-of-cash-order']")
+    static sidebarCashOrderButton = () => cy.get("[class*=_sidebar_menu_] > :nth-child(8) > .flex")
 
-    static sidebarCashOrderCreateCashOrderButton = () => cy.get("[class*='_page_1'] [href='/create-cash-order']")
+    static sidebarCashOrderListOfCashOrdersButton = () => cy.get(":nth-child(8) > .overflow-hidden > .block > :nth-child(1) > a")
 
-    static sidebarActsButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(3)
+    static sidebarCashOrderCreateCashOrderButton = () => cy.get(":nth-child(8) > .overflow-hidden > .block > :nth-child(2) > a")
 
-    static sidebarActsListOfActsButton = () => cy.get("[class*='_page_1'] [href='/list-of-acts']")
+    static sidebarActsButton = () => cy.get("[class*=_sidebar_menu_] > :nth-child(9) > .flex")
 
-    static sidebarCreateAnActButton = () => cy.get("[class*='_page_1'] [href='/create-act']")
+    static sidebarActsListOfActsButton = () => cy.get(":nth-child(9) > .overflow-hidden > .block > :nth-child(1) > a")
 
-    static sidebarInventoryButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(4)
+    static sidebarCreateAnActButton = () => cy.get(":nth-child(9) > .overflow-hidden > .block > :nth-child(2) > a")
 
-    static sidebarInventoryListOfInventoriesButton = () => cy.get("[class*='_page_1'] [href='/list-of-inventories']")
+    static sidebarInventoryButton = () => cy.get("[class*=_sidebar_menu_] > :nth-child(10) > .flex")
 
-    static sidebarInventoryCreateInventoryButton = () => cy.get("[class*='_page_1'] [href='/create-inventory']")
+    static sidebarInventoryListOfInventoriesButton = () => cy.get(":nth-child(10) > .overflow-hidden > .block > :nth-child(1) > a")
 
-    static sidebarSalesButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(5)
+    static sidebarInventoryCreateInventoryButton = () => cy.get(":nth-child(10) > .overflow-hidden > .block > :nth-child(2) > a")
 
-    static sidebarSalesListSalesButton = () => cy.get("[class*='_page_1'] [href='/list-of-sales']")
+    static sidebarReportsButton = () => cy.get("[class*=_sidebar_menu_] > :nth-child(12) > .flex")
 
-    static sidebarSalesInvoiceButton = () => cy.get("[class*='_page_1'] [href='/new-sale']")
+    static sidebarReportsChecksButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(1) > a")
 
-    static sidebarReportsButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(6)
+    static sidebarReportsImplementationReportButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(2) > a")
 
-    static sidebarReportsChecksButton = () => cy.get("[class*='_page_1'] [href='/checks']")
+    static sidebarReportsCounterpartiesButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(3) > a")
 
-    static sidebarReportsImplementationReportButton = () => cy.get("[class*='_page_1'] [href='/implementation-report']")
+    static sidebarReportsRevenuesButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(4) > a")
 
-    static sidebarReportsCounterpartiesButton = () => cy.get("[class*='_page_1'] [href='/counterparties']")
+    static sidebarReportsFinancesButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(5) > a")
 
-    static sidebarReportsRevenuesButton = () => cy.get("[class*='_page_1'] [href='/revenue']")
+    static sidebarReportsProductReportsButton = () => cy.get(":nth-child(12) > .overflow-hidden > .block > :nth-child(6) > a")
 
-    static sidebarReportsFinancesButton = () => cy.get("[class*='_page_1'] [href='/finances']")
-
-    static sidebarReportsProductReportsButton = () => cy.get("[class*='_page_1'] [href='/product-reports']")
-
-    static sidebarVendorsButton = () => cy.get("[class*=\'_accordion\'] button[type=\'button\']").eq(7)
-
-    static sidebarVendorsPurchasesButton = () => cy.get("[class*='_page_1'] [href='/list-of-vendors']")
-
-    static sidebarVendorsPurchaseOrderButton = () => cy.get("[class*='_page_1'] [href='/new-purchase']")
-
-    static sidebarVendorsExpenseButton = () => cy.get("[class*='_page_1'] [href='/expense']")
 }
 
 

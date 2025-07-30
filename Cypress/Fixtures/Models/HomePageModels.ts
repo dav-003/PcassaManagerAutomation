@@ -16,23 +16,25 @@ export enum Redirects {
     writeOff = "/create-write-off-invoice",
     internalTransfer = "/create-internal-transfer-invoice",
     returnToProvider = "/create-return-to-provider-invoice",
-    buyerReturn = "/create-return-to-buyer-invoice",
+    buyerReturn = "/create-return-from-buyer-invoice",
     listOfCashOrders = "/list-of-cash-order",
     createCashOrder = "/create-cash-order",
     listOfActs = "/list-of-acts",
     createAct = "/create-act",
     listOfInventories = "/list-of-inventories",
     createInventory = "/create-inventory",
-    listOfSales = "/list-of-sales",
-    createSale = "/new-sale",
     checks = "/checks",
     implementationReport = "/implementation-report",
     counterparties = "/counterparties",
     revenues = "/revenue",
     finances = "/finances",
     productReports = "/product-reports",
-    vendorsPurchases = "/list-of-vendors",
-    vendorsPurchaseOrder = "/new-purchase",
-    vendorsExpense = "/expense",
-    settings = "/settings"
+    settings = "/settings",
+    calculation = "calculation"
+}
+
+export enum Languages {
+    Armenian = 0,
+    English = 1,
+    Russian = 2
 }

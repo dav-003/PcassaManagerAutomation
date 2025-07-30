@@ -34,7 +34,7 @@ export class SignInSelectors {
 
   static wrongCredentialsErrorMessage = () => cy.get('.Toastify__toast-body > :nth-child(2)')
 
-  static homePageCaption = () => cy.get('[class*=\'title\']:contains("Գլխավոր")')
+  static homePageCaption = () => cy.get('[class*="content_title"] [class*="_title"]')
 
   static signInTitle = () => cy.get('[class*=\'mb-[50px]\'] > h3')
 }

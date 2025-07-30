@@ -30,6 +30,10 @@ describe('Home Page', () => {
             HomePageSelectors.paymentsModal().should('not.exist')
         })
         it('Should check language change', () => {
+            HomePageSelectors.languageButton().click()
+            HomePageSelectors.languageDropdown().should('be.visible')
+            HomePageSelectors.languageDropdownOptions(0).click()
+            HomePageSelectors.languageDropdown().should('not.exist')
             HomePageSelectors.headerText().should('contain.text', 'Գլխավոր')
             HomePageSelectors.languageButton().click()
             HomePageSelectors.languageDropdown().should('be.visible')
@@ -53,6 +57,8 @@ describe('Home Page', () => {
         it('Should check sidebar Lists correct redirects', () => {
             HomePageSelectors.sidebarProductsButton().click()
             cy.url().should('include', Redirects.products)
+            HomePageSelectors.sidebarCalculationButton().click()
+            cy.url().should('include', Redirects.calculation)
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsUnitOfMeasurementsButton().click()
             cy.url().should('include', Redirects.unitOfMeasurements)
@@ -107,12 +113,7 @@ describe('Home Page', () => {
             HomePageSelectors.sidebarInventoryCreateInventoryButton().click()
             cy.url().should('include', Redirects.createInventory)
         })
-        it('Should check Sales Reports and Vendors redirects', () => {
-            HomePageSelectors.sidebarSalesButton().click()
-            HomePageSelectors.sidebarSalesListSalesButton().click()
-            cy.url().should('include', Redirects.listOfSales)
-            HomePageSelectors.sidebarSalesInvoiceButton().click()
-            cy.url().should('include', Redirects.createSale)
+        it('Should check Reports redirects', () => {
             HomePageSelectors.sidebarReportsButton().click()
             HomePageSelectors.sidebarReportsChecksButton().click()
             cy.url().should('include', Redirects.checks)
@@ -126,13 +127,6 @@ describe('Home Page', () => {
             cy.url().should('include', Redirects.finances)
             HomePageSelectors.sidebarReportsProductReportsButton().click()
             cy.url().should('include', Redirects.productReports)
-            HomePageSelectors.sidebarVendorsButton().click()
-            HomePageSelectors.sidebarVendorsPurchasesButton().click()
-            cy.url().should('include', Redirects.vendorsPurchases)
-            HomePageSelectors.sidebarVendorsPurchaseOrderButton().click()
-            cy.url().should('include', Redirects.vendorsPurchaseOrder)
-            HomePageSelectors.sidebarVendorsExpenseButton().click()
-            cy.url().should('include', Redirects.vendorsExpense)
         })
         it('Should check Settings redirects', () => {
             HomePageSelectors.profileButton().click()

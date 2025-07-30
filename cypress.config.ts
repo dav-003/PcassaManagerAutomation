@@ -5,7 +5,7 @@ export default defineConfig({
   requestTimeout: 120000,
   responseTimeout: 120000,
   e2e: {
-    baseUrl: 'https://my.pcassa.am/',
+    baseUrl: 'https://dev.ekey.am/',
     watchForFileChanges: false,
     viewportWidth: 1920,
     viewportHeight: 1080,
