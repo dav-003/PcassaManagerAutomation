@@ -4,6 +4,7 @@ import {SignInGenerators} from "../../Fixtures/Generators/SignInGenerators";
 import {HomePageMethods} from "../../Fixtures/Methods/HomePageMethods";
 import {Languages} from "../../Fixtures/Models/HomePageModels";
 import {HomePageSelectors} from "../../Fixtures/Selectors/HomePageSelectors";
+import {ProductsMethods} from "../../Fixtures/Methods/ProductsMethods";
 import Chance from 'chance';
 const chance = new Chance();
 
@@ -50,9 +51,23 @@ describe('Products', () => {
             ProductsSelectors.addGroupField().type(randomGroupName).type('{enter}')
             ProductsSelectors.groupsTree().contains(randomGroupName).should('be.visible')
             ProductsSelectors.groupsTree().contains(randomGroupName).rightclick()
+            cy.wait(400)
             ProductsSelectors.groupRightClickModalDeleteOption().click()
+            ProductsSelectors.deleteNotificationModal().should('be.visible')
             ProductsSelectors.deleteNotificationModalDeleteOption().click()
             ProductsSelectors.groupsTree().contains(randomGroupName).should('not.exist')
+            ProductsSelectors.groupSectionCloseButton().click()
+            ProductsSelectors.productGroupsSection().should('not.be.visible')
+            ProductsSelectors.groupSectionOpenButton().click()
+            ProductsSelectors.productGroupsSection().should('be.visible')
+        })
+        it.only('Should check cases with products', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsAddButton().click()
+            ProductsSelectors.addProductSidebarModal().should('be.visible')
+            ProductsSelectors.addProductModalCloseButton().click()
+            ProductsSelectors.addProductSidebarModal().should('not.be.visible')
+            ProductsMethods.AddRandomProduct()
         })
     })
 })

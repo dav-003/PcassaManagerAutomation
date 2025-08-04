@@ -30,13 +30,13 @@ export class ProductsSelectors {
 
     static deletedGroup = () => cy.get('[class*="_groups_tree"] [class*="_delete_product"]')
 
-    static groupRightClickModalDeleteOption = () => cy.get('#\\:r4ap\\: > :nth-child(4)')
+    static groupRightClickModalDeleteOption = () => cy.get('[role="menu"] > :nth-child(4)')
 
-    static groupRightClickModalRenameOption = () => cy.get('#\\:r49p\\: > :nth-child(2)')
+    static groupRightClickModalRenameOption = () => cy.get('[role="menu"] > :nth-child(2)')
 
-    static groupRightClickModalAddSubgroupOption = () => cy.get('#\\:r49p\\: > :nth-child(1)')
+    static groupRightClickModalAddSubgroupOption = () => cy.get('[role="menu"] > :nth-child(1)')
 
-    static groupRightClickModalMoveOption = () => cy.get('#\\:r49p\\: > :nth-child(3)')
+    static groupRightClickModalMoveOption = () => cy.get('[role="menu"] > :nth-child(3)')
 
     static deleteNotificationModal = () => cy.get('[class*=_delete_notification_]')
 
@@ -44,9 +44,9 @@ export class ProductsSelectors {
 
     static deleteNotificationModalCancelOption = () => cy.get('[class*=_delete_btn] > .text-gray-900')
 
-    static groupSectionCloseButton = () => cy.get('[class=\'flex gap-3 items-center\'] button')
+    static groupSectionCloseButton = () => cy.get('.pl-\\[7px\\] > .gap-3 > .relative')
 
-    static groupSectionOpenButton = () => cy.get('[class=\'flex gap-3 items-center\'] button')
+    static groupSectionOpenButton = () => cy.get('.pl-\\[7px\\] > .gap-3 > .relative')
 
     static productsFilterButton = () => cy.get('[class*=\'_product_items\'] [class="flex gap-2 items-center"] button[style]')
 
@@ -76,37 +76,39 @@ export class ProductsSelectors {
 
     static productsPaginationPagesOption50Pages = () => cy.get('#react-select-2-option-4')
 
-    static productsAddButton = () => cy.get('div.gap-2 > .font-bold')
+    static productsAddButton = () => cy.get('[class*="pl-[7px]"] [class*="react-select"] + [type="button"]')
 
     static addProductModal = () => cy.get('[class*="_add_product_item"]')
 
-    static addProductModalCloseButton = () => cy.get('[class*="_close"]')
+    static addProductSidebarModal = () => cy.get('div[tabindex="-1"] > [class*="_add_product_item"]')
 
-    static addProductModaladdPhotoButton = () => cy.get('[class*=_file_] > label')
+    static addProductModalCloseButton = () => cy.get('[class*="flex gap-3 items-center"] [class*="_close_"]')
 
-    static addProductModalNameInput = () => cy.get('.gap-5 > :nth-child(2) > :nth-child(1) > [class*=_form_control] > input')
+    static addProductModalAddPhotoButton = () => cy.get('[class*=_file_] > label')
 
-    static addProductModalOtherNameInput = () => cy.get('.gap-5 > :nth-child(2) > :nth-child(2) > [class*=_form_control] > input')
+    static addProductModalNameInput = () => cy.get('[class*="_add_product_item"] input[name="name"]')
 
-    static addProductModalDescriptionInput = () => cy.get('.gap-5 > :nth-child(2) > :nth-child(3) > [class*=_form_control] > textarea')
+    static addProductModalOtherNameInput = () => cy.get('[class*="_add_product_item"] input[name="kname"]')
+
+    static addProductModalDescriptionInput = () => cy.get('[class*="_add_product_item"] textarea[name="description"]')
 
     static addProductModalStatusCheckbox = () => cy.get('#\\:r26b\\:')
 
     static addProductModalTopCheckbox = () => cy.get('#\\:r26c\\:')
 
-    static addProductModalGroupSelect = () => cy.get('div.w-full > .align-middle')
+    static addProductModalGroupSelect = () => cy.get('[class*="_add_product_item"] button.border-gray-900.text-gray-900.w-full')
 
     static addProductModalGroupModalSearchField = () => cy.get('.flex-col > .gap-2 > [class*=_form_input_] > [class*=_form_control_] > input')
 
     static addProductModalGroupModalCloseButton = () => cy.get('[class*="w-full flex flex-col gap-3"] [class*="cursor-pointer"]')
 
-    static addProductModalGroupModalGroupList = () => cy.get('[class*="w-full flex flex-col gap-3"] + [class*="_groups"]')
+    static addProductModalGroupModalGroups = () => cy.get('[class*="_add_product_"] [class*="_drawer_"] [class*="_groups_"] [class*="_group_three_"]')
 
     static addProductModalGroupModalSelectGroupButton = () => cy.get('[class*="w-full flex flex-col gap-3"] + [class*="_groups"] + button')
 
-    static addProductModalProductCategorySelect = () => cy.get('#react-select-3-placeholder')
+    static addProductModalProductCategorySelect = () => cy.get('#react-select-4-placeholder')
 
-    static addProductModalProductCategoryList = () => cy.get('#react-select-3-listbox')
+    static addProductModalProductCategoryOptions = () => cy.get('div[id^="react-select-4-option"]')
 
     static addProductModalProductCategoryListAdd = () => cy.get('.py-1')
 
@@ -118,9 +120,9 @@ export class ProductsSelectors {
 
     static addProductModalProductCategoryAddNewCategoryModalCloseButton = () => cy.get('.absolute > .fill-black > path')
 
-    static addProductModalUnitOfMeasurementSelect = () => cy.get('#react-select-4-placeholder')
+    static addProductModalUnitOfMeasurementSelect = () => cy.get('#react-select-5-placeholder')
 
-    static addProductModalUnitOfMeasurementList = () => cy.get('#react-select-4-listbox')
+    static addProductModalUnitOfMeasurementSelectOptions = () => cy.get('div[id^="react-select-5-option"]')
 
     static addProductModalUnitOfMeasurementListAdd = () => cy.get('.py-1')
 
@@ -132,25 +134,25 @@ export class ProductsSelectors {
 
     static addProductModalUnitOfMeasurementAddNewUnitOfMeasurementModalCloseButton = () => cy.get('.absolute > .fill-black > path')
 
-    static addProductModalBarcodeInput = () => cy.get(':nth-child(4) > :nth-child(1) > [class*=_form_control_] > input')
+    static addProductModalBarcodeInput = () => cy.get('[class*="_add_product_item"] input[name="barcode"]')
 
-    static addProductModalBarcodeGroupInput = () => cy.get(':nth-child(4) > :nth-child(2) > [class*=_form_control_] > input')
+    static addProductModalBarcodeGroupInput = () => cy.get('[class*="_add_product_item"] input[name="barcode_grupp"]')
 
-    static addProductModalADGCodeInput = () => cy.get(':nth-child(5) > :nth-child(1) > [class*=_form_control_] > input')
+    static addProductModalADGCodeInput = () => cy.get('[class*="_add_product_item"] input[name="adg"]')
 
-    static addProductModalSKUInput = () => cy.get(':nth-child(5) > :nth-child(2) > [class*=_form_control_] > input')
+    static addProductModalSKUInput = () => cy.get('[class*="_add_product_item"] input[name="artikul"]')
 
-    static addProductModalWholesalePriceInput = () => cy.get(':nth-child(6) > :nth-child(1) > [class*=_form_control_] > input')
+    static addProductModalWholesalePriceInput = () => cy.get('[class*="_add_product_item"] input[name="price_o_o"]')
 
-    static addProductModalRetailPriceInput = () => cy.get(':nth-child(6) > :nth-child(2) > [class*=_form_control_] > input')
+    static addProductModalRetailPriceInput = () => cy.get('[class*="_add_product_item"] input[name="price_o_r"]')
 
-    static addProductModalSizeSelect = () => cy.get('#react-select-5-placeholder')
+    static addProductModalSizeSelect = () => cy.get('#react-select-6-placeholder')
 
-    static addProductModalSizeList = () => cy.get('#react-select-5-listbox')
+    static addProductModalSizeOptions = () => cy.get('div[id^="react-select-6-option"]')
 
-    static addProductModalColorSelect = () => cy.get('#react-select-6-placeholder')
+    static addProductModalColorSelect = () => cy.get('#react-select-7-placeholder')
 
-    static addProductModalColorList = () => cy.get('#react-select-6-listbox')
+    static addProductModalColorOptions = () => cy.get('div[id^="react-select-7-option"]')
 
     static addProductModalColorListAddButton = () => cy.get('.py-1')
 
@@ -160,23 +162,23 @@ export class ProductsSelectors {
 
     static addProductModalColorAddNewColorModalCloseButton = () => cy.get('.absolute > .fill-black > path')
 
-    static addProductModalSettingsButton = () => cy.get('.mt-5')
+    static addProductModalSettingsButton = () => cy.get('[class*="_product_header"] [class*="flex gap-3"] [type="button"]')
 
-    static addProductModalSettingsDepartmentsInput = () => cy.get('.basis-full > :nth-child(1) > :nth-child(1) > [class*=_form_control_] > input')
+    static addProductModalSettingsDepartmentsInput = () => cy.get('[class*="_add_product_item"] input[name="dep"]')
 
-    static addProductModalSettingsFiscalRegisterInput = () => cy.get('.basis-full > :nth-child(1) > :nth-child(2) > [class*=_form_control_] > input')
+    static addProductModalSettingsFiscalRegisterInput = () => cy.get('[class*="_add_product_item"] input[name="hdm"]')
 
-    static addProductModalSettingsServiceFeeInput = () => cy.get('.basis-full > :nth-child(2) > :nth-child(1) > [class*=_form_control] > input')
+    static addProductModalSettingsServiceFeeInput = () => cy.get('[class*="_add_product_item"] input[name="nacenka"]')
 
-    static addProductModalSettingsReturnLimitationInput = () => cy.get('.basis-full > :nth-child(2) > :nth-child(2) > [class*=_form_control] > input')
+    static addProductModalSettingsReturnLimitationInput = () => cy.get('[class*="_add_product_item"] input[name="vozvrat"]')
 
-    static addProductModalSettingsMaxDiscountInput = () => cy.get(':nth-child(3) > :nth-child(1) > [class*=_form_control_] > input')
+    static addProductModalSettingsMaxDiscountInput = () => cy.get('[class*="_add_product_item"] input[name="priznak_sk"]')
 
-    static addProductModalSettingsDiscountInput = () => cy.get(':nth-child(3) > :nth-child(2) > [class*=_form_control_] > input')
+    static addProductModalSettingsDiscountInput = () => cy.get('[class*="_add_product_item"] input[name="discount"]')
 
-    static addProductModalSettingsPrinterSelect = () => cy.get('#react-select-7-placeholder')
+    static addProductModalSettingsPrinterSelect = () => cy.get('#react-select-3-placeholder')
 
-    static addProductModalSettingsPrinterList = () => cy.get('#react-select-13-listbox')
+    static addProductModalSettingsPrinterOptions = () => cy.get('div[id^="react-select-3-option"]')
 
     static addProductModalSettingsNotDiscountCheckbox = () => cy.get('#\\:r25h\\:')
 
