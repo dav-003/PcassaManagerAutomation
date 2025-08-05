@@ -5,6 +5,7 @@ import {HomePageMethods} from "../../Fixtures/Methods/HomePageMethods";
 import {Languages} from "../../Fixtures/Models/HomePageModels";
 import {HomePageSelectors} from "../../Fixtures/Selectors/HomePageSelectors";
 import {ProductsMethods} from "../../Fixtures/Methods/ProductsMethods";
+import {ProductTheadRowSequence} from "../../Fixtures/Models/ProductsModels";
 import Chance from 'chance';
 const chance = new Chance();
 
@@ -23,7 +24,7 @@ describe('Products', () => {
             cy.visit('/')
             HomePageMethods.changeLanguage(Languages.English)
         })
-        it('Should check cases with product tools', () => {
+        it('Should check cases with product group tools', () => {
             HomePageSelectors.sidebarProductsButton().click()
             ProductsSelectors.groupsSearchButton().click()
             ProductsSelectors.groupsSearchField().should('have.attr', 'placeholder', 'Search')
@@ -61,13 +62,70 @@ describe('Products', () => {
             ProductsSelectors.groupSectionOpenButton().click()
             ProductsSelectors.productGroupsSection().should('be.visible')
         })
-        it.only('Should check cases with products', () => {
+        it('Should check cases with product add modal', () => {
             HomePageSelectors.sidebarProductsButton().click()
             ProductsSelectors.productsAddButton().click()
             ProductsSelectors.addProductSidebarModal().should('be.visible')
             ProductsSelectors.addProductModalCloseButton().click()
             ProductsSelectors.addProductSidebarModal().should('not.be.visible')
             ProductsMethods.AddRandomProduct()
+        })
+        it('Should check select all checkbox cases', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyAllCheckboxes().should('be.visible')
+            ProductsSelectors.selectAllProductsCheckbox().check()
+            ProductsSelectors.productsTbodyAllCheckboxes().should('be.checked')
+            ProductsSelectors.selectAllProductsCheckbox().uncheck()
+            ProductsSelectors.productsTbodyAllCheckboxes().should('not.be.checked')
+        })
+        it.only('Should check filtering cases', () => {
+            const randomLetter = chance.string({length: 1})
+            const randomNumber = chance.integer({min: 1, max: 100})
+            const randomNum1_10 = chance.integer({min: 1, max: 10})
+            const wholesalePrice = 1500
+            const retailPrice = 2000
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbody().should('be.visible')
+            ProductsSelectors.productsFilterButton().click()
+            ProductsSelectors.productsFilterSection().should('be.visible')
+            ProductsSelectors.productsFilterByCodeField().type(String(randomNumber))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.Code).contains(String(randomNumber))
+            })
+            ProductsSelectors.productsFilterByCodeField().clear()
+            ProductsSelectors.productsFilterByNameField().type(String(randomNum1_10))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.Name).contains(String(randomNum1_10))
+            })
+            ProductsSelectors.productsFilterByNameField().clear()
+            ProductsSelectors.productsFilterByBarcodeField().type(String(randomNumber))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.Barcode).contains(String(randomNumber))
+            })
+            ProductsSelectors.productsFilterByBarcodeField().clear()
+            ProductsSelectors.productsFilterByBarcodeGroupField().type(String(randomNumber))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.BarcodeGroup).contains(String(randomNumber))
+            })
+            ProductsSelectors.productsFilterByBarcodeGroupField().clear()
+            ProductsSelectors.productsFilterByWholesalePriceField().type(String(wholesalePrice))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.WholesalePrice).contains(String(wholesalePrice))
+            })
+            ProductsSelectors.productsFilterByWholesalePriceField().clear()
+            ProductsSelectors.productsFilterByRetailPriceField().type(String(retailPrice))
+            cy.wait(1000)
+            ProductsSelectors.productsTbodyAllRows().each(($row) => {
+                cy.wrap($row).find('td').eq(ProductTheadRowSequence.RetailPrice).contains(String(retailPrice))
+            })
+            ProductsSelectors.productsFilterByRetailPriceField().clear()
+            ProductsSelectors.productsFilterButton().click()
+            ProductsSelectors.productsFilterSection().should('not.be.visible')
         })
     })
 })

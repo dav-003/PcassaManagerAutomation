@@ -15,3 +15,31 @@ export interface ProductAddModal {
     maxDiscount?: number;
     discount?: number;
 }
+
+export enum ProductTheadSequence {
+    SelectAllCheckbox = 0,
+    Code = 1,
+    Name = 2,
+    UnitOfMeasurement = 3,
+    RetailPrice = 4,
+    WholesalePrice = 5,
+    Barcode = 6,
+    BarcodeGroup = 7,
+    SKU = 8,
+    Size = 9,
+    Image = 10
+}
+
+export enum ProductTheadRowSequence {
+    SelectAllCheckbox = 0,
+    Code = 1,
+    Name = 2,
+    UnitOfMeasurement = 3,
+    RetailPrice = 4,
+    WholesalePrice = 5,
+    Barcode = 6,
+    BarcodeGroup = 7,
+    SKU = 8,
+    Size = 9,
+    Image = 10
+}

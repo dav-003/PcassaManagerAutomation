@@ -6,7 +6,11 @@ export class ProductsSelectors {
 
     static productsTbody = () => cy.get('[class*=\'products\'] > [class*=\'_product\'] tbody')
 
+    static productsTbodyAllRows = () => cy.get('[class*=\'_product_items\'] [class*="_tbody_"] tr[class]')
+
     static productsTbodyRow = (index: number) => cy.get('[class*=\'products\'] > [class*=\'_product\'] tbody tr').eq(index)
+
+    static productsTbodyAllCheckboxes = () => cy.get('tbody input[type="checkbox"]')
 
     static productsTbodyRowCheckbox = (index: number) => cy.get('[class*=\'products\'] > [class*=\'_product\'] tbody tr input').eq(index)
 
@@ -48,7 +52,9 @@ export class ProductsSelectors {
 
     static groupSectionOpenButton = () => cy.get('.pl-\\[7px\\] > .gap-3 > .relative')
 
-    static productsFilterButton = () => cy.get('[class*=\'_product_items\'] [class="flex gap-2 items-center"] button[style]')
+    static productsFilterButton = () => cy.get('[class*="_product_items_"] [class*="border-b-deep"] [class*="gap-2 items"]  [class*="font-medium"]')
+
+    static productsFilterSection = () => cy.get('[class*="_product_items_"] [class*="px-[10px] pb-[10px]"]')
 
     static productsFilterByCodeField = () => cy.get('[class*=\'_product_filter\'] [class] input').eq(0)
 
@@ -92,9 +98,9 @@ export class ProductsSelectors {
 
     static addProductModalDescriptionInput = () => cy.get('[class*="_add_product_item"] textarea[name="description"]')
 
-    static addProductModalStatusCheckbox = () => cy.get('#\\:r26b\\:')
+    static addProductModalStatusCheckbox = () => cy.get('label[for=":r1i:"] input[type="checkbox"]')
 
-    static addProductModalTopCheckbox = () => cy.get('#\\:r26c\\:')
+    static addProductModalTopCheckbox = () => cy.get('label[for=":r1j:"] input[type="checkbox"]')
 
     static addProductModalGroupSelect = () => cy.get('[class*="_add_product_item"] button.border-gray-900.text-gray-900.w-full')
 
@@ -104,7 +110,7 @@ export class ProductsSelectors {
 
     static addProductModalGroupModalGroups = () => cy.get('[class*="_add_product_"] [class*="_drawer_"] [class*="_groups_"] [class*="_group_three_"]')
 
-    static addProductModalGroupModalSelectGroupButton = () => cy.get('[class*="w-full flex flex-col gap-3"] + [class*="_groups"] + button')
+    static addProductModalGroupModalSelectGroupButton = () => cy.get('[class*="w-full flex flex-col gap-3"] + [class*="_groups"] + button:enabled')
 
     static addProductModalProductCategorySelect = () => cy.get('#react-select-4-placeholder')
 
@@ -180,13 +186,13 @@ export class ProductsSelectors {
 
     static addProductModalSettingsPrinterOptions = () => cy.get('div[id^="react-select-3-option"]')
 
-    static addProductModalSettingsNotDiscountCheckbox = () => cy.get('#\\:r25h\\:')
+    static addProductModalSettingsNotDiscountCheckbox = () => cy.get('label[for=":r1e:"] input[type="checkbox"]')
 
-    static addProductModalSettingsExciseCheckbox = () => cy.get('#\\:r25i\\:')
+    static addProductModalSettingsExciseCheckbox = () => cy.get('label[for=":r1f:"] input[type="checkbox"]')
 
-    static addProductModalSettingsTaxCheckbox = () => cy.get('#\\:r25j\\:')
+    static addProductModalSettingsTaxCheckbox = () => cy.get('label[for=":r1g:"] input[type="checkbox"]')
 
-    static addProductModalAddButton = () => cy.get('[class*=_footer_] > .align-middle')
+    static addProductModalAddButton = () => cy.get('[class*="_add_product_item_"] button[type="submit"]')
 
     static paginationPreviousButton = () => cy.get('.previous > a')
 
@@ -194,9 +200,7 @@ export class ProductsSelectors {
 
     static showAllSelectedProductsButton = () => cy.get('#\\:r49p\\:')
 
-    static selectFirstProductCheckbox = () => cy.get('#\\:r49f\\:')
-
-    static selectAllProductsCheckbox = () => cy.get('#\\:r49e\\:')
+    static selectAllProductsCheckbox = () => cy.get('th[class*="_thead"] label[for=":r16:"] > input[type="checkbox"]')
 
     static productRightClickModal = () => cy.get('.rounded-xl > .flex-col')
 

@@ -10,10 +10,10 @@ export class ProductsMethods {
         ProductsSelectors.productsAddButton().click()
         ProductsSelectors.addProductSidebarModal().should('be.visible')
         if(data.name) ProductsSelectors.addProductModalNameInput().type(data.name)
-        if(data.alternativeName) ProductsSelectors.addProductModalOtherNameInput().type(data.alternativeName)
+        if(data.alternativeName) ProductsSelectors.addProductModalOtherNameInput().clear().type(data.alternativeName)
         if(data.description) ProductsSelectors.addProductModalDescriptionInput().type(data.description)
         if(data.barcode) ProductsSelectors.addProductModalBarcodeInput().type(data.barcode)
-        if(data.barcodeGroup) ProductsSelectors.addProductModalBarcodeGroupInput().type(data.barcodeGroup)
+        if(data.barcodeGroup) ProductsSelectors.addProductModalBarcodeGroupInput().clear().type(data.barcodeGroup)
         if(data.adgCode) ProductsSelectors.addProductModalADGCodeInput().type(data.adgCode)
         if(data.sku) ProductsSelectors.addProductModalSKUInput().type(data.sku)
         if(data.wholesalePrice) ProductsSelectors.addProductModalWholesalePriceInput().type(String(data.wholesalePrice))
@@ -24,7 +24,7 @@ export class ProductsMethods {
             cy.wait(400)
             cy.wrap($groups[randomIndex]).scrollIntoView().click();
         })
-        ProductsSelectors.addProductModalGroupModalSelectGroupButton().click({ multiple: true })
+        ProductsSelectors.addProductModalGroupModalSelectGroupButton().click()
         ProductsSelectors.addProductModalProductCategorySelect().click()
         ProductsSelectors.addProductModalProductCategoryOptions().should('be.visible').then(($categories) => {
             const randomIndex = chance.integer({ min: 1, max: $categories.length - 1 });
@@ -90,5 +90,6 @@ export class ProductsMethods {
             cy.wrap($printers[randomIndex]).scrollIntoView().click({ force: true });
         })
         ProductsSelectors.addProductModalAddButton().click()
+        ProductsSelectors.addProductSidebarModal().should('not.be.visible')
     }
 }
