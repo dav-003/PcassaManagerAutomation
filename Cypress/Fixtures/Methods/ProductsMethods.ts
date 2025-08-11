@@ -92,4 +92,70 @@ export class ProductsMethods {
         ProductsSelectors.addProductModalAddButton().click()
         ProductsSelectors.addProductSidebarModal().should('not.be.visible')
     }
+    static editRandomProduct = () => {
+        const randomNumber = chance.integer({min: 0, max: 5})
+        const [data]: ProductAddModal[] = ProductsGenerators.generatedProduct()
+        ProductsSelectors.productsTbodyRow(randomNumber).rightclick()
+        ProductsSelectors.productRightClickModalEditButton().click()
+        ProductsSelectors.editProductSidebarModal().should('be.visible')
+        if(data.name) ProductsSelectors.productEditSidebarNameInput().clear().type(data.name)
+        if(data.alternativeName) ProductsSelectors.productEditSidebarOtherNameInput().clear().type(data.alternativeName)
+        if(data.description) ProductsSelectors.productEditSidebarDescriptionInput().clear().type(data.description)
+        if(data.barcode) ProductsSelectors.productEditSidebarBarcodeInput().clear().type(data.barcode)
+        if(data.barcodeGroup) ProductsSelectors.productEditSidebarBarcodeGroupInput().clear().type(data.barcodeGroup)
+        if(data.adgCode) ProductsSelectors.productEditSidebarADGCodeInput().clear().type(data.adgCode)
+        if(data.sku) ProductsSelectors.productEditSidebarSKUInput().clear().type(data.sku)
+        if(data.wholesalePrice) ProductsSelectors.productEditSidebarWholesalePriceInput().clear().type(String(data.wholesalePrice))
+        if(data.retailPrice) ProductsSelectors.productEditSidebarRetailPriceInput().clear().type(String(data.retailPrice))
+        ProductsSelectors.productEditSidebarGroupSelect().click()
+        ProductsSelectors.productEditSidebarGroupOptions().should('be.visible').then(($groups) => {
+            const randomIndex = chance.integer({ min: 0, max: $groups.length - 1 });
+            cy.wrap($groups[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarGroupOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarProductCategorySelect().click()
+        ProductsSelectors.productEditSidebarProductCategoryOptions().should('be.visible').then(($categories) => {
+            const randomIndex = chance.integer({ min: 1, max: $categories.length - 1 });
+            cy.wrap($categories[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarProductCategoryOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarUnitOfMeasurementSelect().click()
+        ProductsSelectors.productEditSidebarUnitOfMeasurementOptions().should('be.visible').then(($units) => {
+            const randomIndex = chance.integer({ min: 1, max: $units.length - 1 });
+            cy.wrap($units[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarUnitOfMeasurementOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarSizeSelect().click()
+        ProductsSelectors.productEditSidebarSizeOptions().should('be.visible').then(($sizes) => {
+            const randomIndex = chance.integer({ min: 0, max: $sizes.length - 1 });
+            cy.wrap($sizes[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarSizeOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarColorSelect().click()
+        ProductsSelectors.productEditSidebarColorOptions().should('be.visible').then(($colors) => {
+            const randomIndex = chance.integer({ min: 1, max: $colors.length - 1 });
+            cy.wrap($colors[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarColorOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarStatusCheckbox().click()
+        ProductsSelectors.productEditSidebarTopCheckbox().click()
+        ProductsSelectors.productEditSidebarSettingsButton().click()
+        if(data.department) ProductsSelectors.productEditSidebarDepartmentsInput().clear().type(String(data.department))
+        if(data.fiscalRegister) ProductsSelectors.productEditSidebarFiscalRegisterInput().clear().type(String(data.fiscalRegister))
+        if(data.serviceFee) ProductsSelectors.productEditSidebarServiceFeeInput().clear().type(String(data.serviceFee))
+        if(data.returnLimitation) ProductsSelectors.productEditSidebarReturnLimitationInput().clear().type(String(data.returnLimitation))
+        if(data.maxDiscount) ProductsSelectors.productEditSidebarMaxDiscountInput().clear().type(String(data.maxDiscount))
+        if(data.discount) ProductsSelectors.productEditSidebarDiscountInput().clear().type(String(data.discount))
+        ProductsSelectors.productEditSidebarNotDiscountCheckbox().click()
+        ProductsSelectors.productEditSidebarExciseCheckbox().click()
+        ProductsSelectors.productEditSidebarTaxCheckbox().click()
+        ProductsSelectors.productEditSidebarPrinterSelect().click()
+        ProductsSelectors.productEditSidebarPrinterOptions().should('be.visible').then(($printers) => {
+            const randomIndex = chance.integer({ min: 0, max: $printers.length - 1 });
+            cy.wrap($printers[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarPrinterOptions().should('not.be.visible')
+        })
+        ProductsSelectors.productEditSidebarSaveButton().click()
+        ProductsSelectors.editProductSidebarModal().should('not.be.visible')
+    }
 }

@@ -8,7 +8,7 @@ export class ProductsSelectors {
 
     static productsTbodyAllRows = () => cy.get('[class*=\'_product_items\'] [class*="_tbody_"] tr[class]')
 
-    static productsTbodyRow = (index: number) => cy.get('[class*=\'products\'] > [class*=\'_product\'] tbody tr').eq(index)
+    static productsTbodyRow = (index: number) => cy.get('[class*=\'_product_items\'] [class*="_tbody_"] tr[class]').eq(index)
 
     static productsTbodyAllCheckboxes = () => cy.get('tbody input[type="checkbox"]')
 
@@ -70,23 +70,25 @@ export class ProductsSelectors {
 
     static productsFilterByRetailPriceField = () => cy.get('[class*=\'_product_filter\'] [class] input').eq(6)
 
-    static productsPaginationButton = () => cy.get('[class*=\'react-select\']')
+    static productsPaginationButton = () => cy.get('[class*="border-b-deep"] [class*="gap-2 items-center"] [class*=\'react-select\']')
 
-    static productsPaginationPagesOption5Pages = () => cy.get('#react-select-2-option-0')
+    static productsPaginationPagesOption5items = () => cy.get('#react-select-2-option-0')
 
-    static productsPaginationPagesOption10Pages = () => cy.get('#react-select-2-option-1')
+    static productsPaginationPagesOption10items = () => cy.get('#react-select-2-option-1')
 
-    static productsPaginationPagesOption15Pages = () => cy.get('#react-select-2-option-2')
+    static productsPaginationPagesOption15items = () => cy.get('#react-select-2-option-2')
 
-    static productsPaginationPagesOption30Pages = () => cy.get('#react-select-2-option-3')
+    static productsPaginationPagesOption30items = () => cy.get('#react-select-2-option-3')
 
-    static productsPaginationPagesOption50Pages = () => cy.get('#react-select-2-option-4')
+    static productsPaginationPagesOption50items = () => cy.get('#react-select-2-option-4')
 
     static productsAddButton = () => cy.get('[class*="pl-[7px]"] [class*="react-select"] + [type="button"]')
 
     static addProductModal = () => cy.get('[class*="_add_product_item"]')
 
     static addProductSidebarModal = () => cy.get('div[tabindex="-1"] > [class*="_add_product_item"]')
+
+    static editProductSidebarModal = () => cy.get('div[tabindex="-1"] > [class*=_edit_product_item_]')
 
     static addProductModalCloseButton = () => cy.get('[class*="flex gap-3 items-center"] [class*="_close_"]')
 
@@ -205,6 +207,90 @@ export class ProductsSelectors {
     static productRightClickModal = () => cy.get('.rounded-xl > .flex-col')
 
     static productRightClickModalEditButton = () => cy.get('.rounded-xl > .flex-col > :nth-child(1)')
+
+    static productEditSidebarNameInput = () => cy.get('[class*=_edit_product_item_] input[name="name"]')
+
+    static productEditSidebarOtherNameInput = () => cy.get('[class*=_edit_product_item_] input[name="kname"]')
+
+    static productEditSidebarDescriptionInput = () => cy.get('[class*=_edit_product_item_] textarea[name="description"]')
+
+    static productEditSidebarStatusCheckbox = () => cy.get('[class*=_edit_product_item_] label[for=":r1u:"] input[type="checkbox"]')
+
+    static productEditSidebarTopCheckbox = () => cy.get('[class*=_edit_product_item_] label[for=":r1v:"] input[type="checkbox"]')
+
+    static productEditSidebarGroupSelect = () => cy.get('[class*=_edit_product_item_] [class*="items-end gap-1"] [class*="items-center gap-1"] button[class*="ring-gray-300"]')
+
+    static productEditSidebarGroupOptions = () => cy.get('[class*="_edit_product_item"] [class*="_drawer_"] [class*="_groups_"] [class*="_group_three_"]')
+
+    static productEditSidebarGroupDeleteButton = () => cy.get('[class*=_edit_product_item_] [class*="items-end gap-1"] [class*="items-center gap-1"] button + button')
+
+    static productEditSidebarProductCategorySelect = () => cy.get('[id^="react-select-"][id*="-option-"]')
+
+    static productEditSidebarProductCategoryOptions = () => cy.get('[class*="edit_product_item"] [class*=_form_block_] > :nth-child(4) > :nth-child(1) > .react-select > .select__control > #react-select-9-option')
+
+    static productEditSidebarProductCategoryDeleteButton = () => cy.get('[class*="edit_product_item"] [class*=_form_block_] > :nth-child(4) > :nth-child(1) > .react-select .select__clear-indicator')
+
+    static productEditSidebarUnitOfMeasurementSelect = () => cy.get(':nth-child(4) > :nth-child(2) > .react-select > .select__control > .select__value-container > .select__single-value')
+
+    static productEditSidebarUnitOfMeasurementOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
+
+    static productEditSidebarUnitOfMeasurementDeleteButton = () => cy.get('[class*="edit_product_item"] :nth-child(4) > :nth-child(2) > .react-select > .select__control > .select__indicators .select__clear-indicator')
+
+    static productEditSidebarBarcodeInput = () => cy.get('[class*="_edit_product_item_"] input[name="barcode"]')
+
+    static productEditSidebarBarcodeGroupInput = () => cy.get('[class*="_edit_product_item_"] input[name="barcode_grupp"]')
+
+    static productEditSidebarADGCodeInput = () => cy.get('[class*="_edit_product_item_"] input[name="adg"]')
+
+    static productEditSidebarSKUInput = () => cy.get('[class*="_edit_product_item_"] input[name="artikul"]')
+
+    static productEditSidebarWholesalePriceInput = () => cy.get('[class*="_edit_product_item_"] input[name="price_o_o"]')
+
+    static productEditSidebarRetailPriceInput = () => cy.get('[class*="_edit_product_item_"] input[name="price_o_r"]')
+
+    static productEditSidebarSizeSelect = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(1) > .react-select > .select__control > .select__value-container')
+
+    static productEditSidebarSizeOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
+
+    static productEditSidebarSizeDeleteButton = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(1) > .react-select > .select__control > .select__indicators .select__clear-indicator')
+
+    static productEditSidebarColorSelect = () => cy.get('[class*="_edit_product_item_"] .select__single-value > div')
+
+    static productEditSidebarColorOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
+
+    static productEditSidebarColorDeleteButton = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(2) > .react-select > .select__control > .select__indicators > .select__clear-indicator')
+
+    static productEditSidebarSettingsButton = () => cy.get('[class*="_edit_product_item_"] .gap-1\\.5 > :nth-child(1) > .relative')
+
+    static productEditSidebarCopyButton = () => cy.get('[class*="_edit_product_item_"] .gap-1\\.5 > :nth-child(2)')
+
+    static productEditSidebarDeleteButton = () => cy.get('[class*="_edit_product_item_"] .mr-2 > .relative')
+
+    static productEditSidebarDepartmentsInput = () => cy.get('[class*="_edit_product_item_"] input[name="dep"]')
+
+    static productEditSidebarFiscalRegisterInput = () => cy.get('[class*="_edit_product_item_"] input[name="hdm"]')
+
+    static productEditSidebarServiceFeeInput = () => cy.get('[class*="_edit_product_item_"] input[name="nacenka"]')
+
+    static productEditSidebarReturnLimitationInput = () => cy.get('[class*="_edit_product_item_"] input[name="vozvrat"]')
+
+    static productEditSidebarMaxDiscountInput = () => cy.get('[class*="_edit_product_item_"] input[name="priznak_sk"]')
+
+    static productEditSidebarDiscountInput = () => cy.get('[class*="_edit_product_item_"] input[name="discount"]')
+
+    static productEditSidebarPrinterSelect = () => cy.get('[class*="_edit_product_item_"] #react-select-8-placeholder')
+
+    static productEditSidebarPrinterOptions = () => cy.get('[class*="_edit_product_item_"] #react-select-8-option-0')
+
+    static productEditSidebarPrinterDeleteButton = () => cy.get('[class*="_edit_product_item_"] .basis-full > :nth-child(4) > .flex-col > .react-select > .select__control > .select__indicators > .select__clear-indicator')
+
+    static productEditSidebarNotDiscountCheckbox = () => cy.get('[class*="_edit_product_item_"] label[for=":r1q:"] input[type="checkbox"]')
+
+    static productEditSidebarExciseCheckbox = () => cy.get('[class*="_edit_product_item_"] label[for=":r1r:"] input[type="checkbox"]')
+
+    static productEditSidebarTaxCheckbox = () => cy.get('[class*="_edit_product_item_"] label[for=":r1s:"] input[type="checkbox"]')
+
+    static productEditSidebarSaveButton = () => cy.get('[class*="_edit_product_item_"] button[type="submit"]')
 
     static productRightClickModalCopyButton = () => cy.get('.rounded-xl > .flex-col > :nth-child(2)')
 
