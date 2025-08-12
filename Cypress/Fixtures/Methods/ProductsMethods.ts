@@ -90,6 +90,7 @@ export class ProductsMethods {
             cy.wrap($printers[randomIndex]).scrollIntoView().click({ force: true });
         })
         ProductsSelectors.addProductModalAddButton().click()
+        ProductsSelectors.successAddToastify().should('be.visible').click()
         ProductsSelectors.addProductSidebarModal().should('not.be.visible')
     }
     static editRandomProduct = () => {
@@ -111,31 +112,32 @@ export class ProductsMethods {
         ProductsSelectors.productEditSidebarGroupOptions().should('be.visible').then(($groups) => {
             const randomIndex = chance.integer({ min: 0, max: $groups.length - 1 });
             cy.wrap($groups[randomIndex]).scrollIntoView().click({ force: true });
+            ProductsSelectors.productEditSidebarGroupOptionSubmitButton().click()
             ProductsSelectors.productEditSidebarGroupOptions().should('not.be.visible')
         })
         ProductsSelectors.productEditSidebarProductCategorySelect().click()
         ProductsSelectors.productEditSidebarProductCategoryOptions().should('be.visible').then(($categories) => {
             const randomIndex = chance.integer({ min: 1, max: $categories.length - 1 });
             cy.wrap($categories[randomIndex]).scrollIntoView().click({ force: true });
-            ProductsSelectors.productEditSidebarProductCategoryOptions().should('not.be.visible')
+            ProductsSelectors.productEditSidebarProductCategoryOptions().should('not.exist')
         })
         ProductsSelectors.productEditSidebarUnitOfMeasurementSelect().click()
         ProductsSelectors.productEditSidebarUnitOfMeasurementOptions().should('be.visible').then(($units) => {
             const randomIndex = chance.integer({ min: 1, max: $units.length - 1 });
             cy.wrap($units[randomIndex]).scrollIntoView().click({ force: true });
-            ProductsSelectors.productEditSidebarUnitOfMeasurementOptions().should('not.be.visible')
+            ProductsSelectors.productEditSidebarUnitOfMeasurementOptions().should('not.exist')
         })
         ProductsSelectors.productEditSidebarSizeSelect().click()
         ProductsSelectors.productEditSidebarSizeOptions().should('be.visible').then(($sizes) => {
             const randomIndex = chance.integer({ min: 0, max: $sizes.length - 1 });
             cy.wrap($sizes[randomIndex]).scrollIntoView().click({ force: true });
-            ProductsSelectors.productEditSidebarSizeOptions().should('not.be.visible')
+            ProductsSelectors.productEditSidebarSizeOptions().should('not.exist')
         })
         ProductsSelectors.productEditSidebarColorSelect().click()
         ProductsSelectors.productEditSidebarColorOptions().should('be.visible').then(($colors) => {
             const randomIndex = chance.integer({ min: 1, max: $colors.length - 1 });
             cy.wrap($colors[randomIndex]).scrollIntoView().click({ force: true });
-            ProductsSelectors.productEditSidebarColorOptions().should('not.be.visible')
+            ProductsSelectors.productEditSidebarColorOptions().should('not.exist')
         })
         ProductsSelectors.productEditSidebarStatusCheckbox().click()
         ProductsSelectors.productEditSidebarTopCheckbox().click()
@@ -144,7 +146,6 @@ export class ProductsMethods {
         if(data.fiscalRegister) ProductsSelectors.productEditSidebarFiscalRegisterInput().clear().type(String(data.fiscalRegister))
         if(data.serviceFee) ProductsSelectors.productEditSidebarServiceFeeInput().clear().type(String(data.serviceFee))
         if(data.returnLimitation) ProductsSelectors.productEditSidebarReturnLimitationInput().clear().type(String(data.returnLimitation))
-        if(data.maxDiscount) ProductsSelectors.productEditSidebarMaxDiscountInput().clear().type(String(data.maxDiscount))
         if(data.discount) ProductsSelectors.productEditSidebarDiscountInput().clear().type(String(data.discount))
         ProductsSelectors.productEditSidebarNotDiscountCheckbox().click()
         ProductsSelectors.productEditSidebarExciseCheckbox().click()
@@ -153,9 +154,11 @@ export class ProductsMethods {
         ProductsSelectors.productEditSidebarPrinterOptions().should('be.visible').then(($printers) => {
             const randomIndex = chance.integer({ min: 0, max: $printers.length - 1 });
             cy.wrap($printers[randomIndex]).scrollIntoView().click({ force: true });
-            ProductsSelectors.productEditSidebarPrinterOptions().should('not.be.visible')
+            ProductsSelectors.productEditSidebarPrinterOptions().should('not.exist')
         })
         ProductsSelectors.productEditSidebarSaveButton().click()
+        ProductsSelectors.productEditSuccessToastify().should('be.visible').click()
+        ProductsSelectors.productEditSuccessToastify().should('not.exist')
         ProductsSelectors.editProductSidebarModal().should('not.be.visible')
     }
 }

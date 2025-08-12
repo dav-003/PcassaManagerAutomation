@@ -24,6 +24,16 @@ describe('Products', () => {
             cy.visit('/')
             HomePageMethods.changeLanguage(Languages.English)
         })
+        afterEach(() => {
+            cy.clearCookies();
+            cy.window().then(win => {
+                Object.keys(win.localStorage).forEach(key => {
+                    if (['admin', 'code', 'deviceId'].indexOf(key) === -1) {
+                        win.localStorage.removeItem(key);
+                    }
+                })
+            })
+        })
         it('Should check cases with product group tools', () => {
             HomePageSelectors.sidebarProductsButton().click()
             ProductsSelectors.groupsSearchButton().click()
@@ -145,10 +155,27 @@ describe('Products', () => {
             ProductsSelectors.productsPaginationPagesOption50items().click()
             ProductsSelectors.productsTbodyAllRows().should('have.length', 50)
         })
-        it.only('Should check product edit', () => {
+        it('Should check product edit', () => {
             HomePageSelectors.sidebarProductsButton().click()
             ProductsSelectors.productsTbody().should('be.visible')
             ProductsMethods.editRandomProduct()
+        })
+        it('Should check product copy & delete', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyRow(1).rightclick()
+            ProductsSelectors.productRightClickModalCopyButton().click()
+            ProductsSelectors.addProductModalNameInput().invoke('val').then(originalName => {
+                const newName = originalName + ' copy'
+                ProductsSelectors.addProductModalNameInput().clear().type(newName)
+                ProductsSelectors.addProductModalAddButton().click()
+                ProductsSelectors.successAddToastify().should('be.visible').click()
+                ProductsSelectors.addProductSidebarModal().should('not.be.visible')
+                ProductsSelectors.productsTbody().contains(newName).should('be.visible').rightclick()
+                ProductsSelectors.productRightClickModalDeleteButton().click()
+                ProductsSelectors.deleteNotificationModal().should('be.visible')
+                ProductsSelectors.deleteNotificationModalDeleteOption().click()
+                ProductsSelectors.productsTbody().contains(newName).should('not.exist')
+            })
         })
     })
 })

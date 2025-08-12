@@ -222,11 +222,13 @@ export class ProductsSelectors {
 
     static productEditSidebarGroupOptions = () => cy.get('[class*="_edit_product_item"] [class*="_drawer_"] [class*="_groups_"] [class*="_group_three_"]')
 
+    static productEditSidebarGroupOptionSubmitButton = () => cy.get('[class*="_edit_product_item"] [class*="_drawer_"] button')
+
     static productEditSidebarGroupDeleteButton = () => cy.get('[class*=_edit_product_item_] [class*="items-end gap-1"] [class*="items-center gap-1"] button + button')
 
-    static productEditSidebarProductCategorySelect = () => cy.get('[id^="react-select-"][id*="-option-"]')
+    static productEditSidebarProductCategorySelect = () => cy.get(':nth-child(4) > :nth-child(1) > .react-select > .select__control > .select__value-container > .select__single-value')
 
-    static productEditSidebarProductCategoryOptions = () => cy.get('[class*="edit_product_item"] [class*=_form_block_] > :nth-child(4) > :nth-child(1) > .react-select > .select__control > #react-select-9-option')
+    static productEditSidebarProductCategoryOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
 
     static productEditSidebarProductCategoryDeleteButton = () => cy.get('[class*="edit_product_item"] [class*=_form_block_] > :nth-child(4) > :nth-child(1) > .react-select .select__clear-indicator')
 
@@ -254,7 +256,7 @@ export class ProductsSelectors {
 
     static productEditSidebarSizeDeleteButton = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(1) > .react-select > .select__control > .select__indicators .select__clear-indicator')
 
-    static productEditSidebarColorSelect = () => cy.get('[class*="_edit_product_item_"] .select__single-value > div')
+    static productEditSidebarColorSelect = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(2) > .react-select > .select__control > .select__value-container')
 
     static productEditSidebarColorOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
 
@@ -291,6 +293,10 @@ export class ProductsSelectors {
     static productEditSidebarTaxCheckbox = () => cy.get('[class*="_edit_product_item_"] label[for=":r1s:"] input[type="checkbox"]')
 
     static productEditSidebarSaveButton = () => cy.get('[class*="_edit_product_item_"] button[type="submit"]')
+
+    static productEditSidebarCloseButton = () => cy.get('[class*="_edit_product_item_"] [class*=_close_]')
+
+    static productEditSuccessToastify = () => cy.get('#successEdit')
 
     static productRightClickModalCopyButton = () => cy.get('.rounded-xl > .flex-col > :nth-child(2)')
 
@@ -419,4 +425,6 @@ export class ProductsSelectors {
     static actionsWithSelectedProductsEditModalPaginationNextButton = () => cy.get('[class*=_edit_group_products_] .next > a')
 
     static actionsWithSelectedProductsEditModalPaginationCurrentPage = () => cy.get('.mt-\\[10px\\] > [class*=_paginate_] > .selected > a')
+
+    static successAddToastify = () => cy.get('#successAdd')
 }
