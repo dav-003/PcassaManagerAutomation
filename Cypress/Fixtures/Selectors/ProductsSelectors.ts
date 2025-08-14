@@ -10,7 +10,7 @@ export class ProductsSelectors {
 
     static productsTbodyRow = (index: number) => cy.get('[class*=\'_product_items\'] [class*="_tbody_"] tr[class]').eq(index)
 
-    static productsTbodyAllCheckboxes = () => cy.get('tbody input[type="checkbox"]')
+    static productsTbodyAllCheckboxes = () => cy.get('[class*="_products_"] [class*="_product_items"] [class*="_card_"] [class*="_borderX_"] tbody tr input[type="checkbox"]')
 
     static productsTbodyRowCheckbox = (index: number) => cy.get('[class*=\'products\'] > [class*=\'_product\'] tbody tr input').eq(index)
 
@@ -308,15 +308,15 @@ export class ProductsSelectors {
 
     static productRightClickModalDeleteButton = () => cy.get('.rounded-xl > .flex-col > :nth-child(4)')
 
-    static actionsWithSelectedProductsButton = () => cy.get('#\\:r4io\\: > .relative')
+    static actionsWithSelectedProductsButton = () => cy.get('[class*="_product_actions"]')
 
-    static actionsWithSelectedProductsModal = () => cy.get('#\\:r4in\\:')
+    static actionsWithSelectedProductsModal = () => cy.get('div[role="menu"]')
 
-    static actionsWithSelectedProductsModalCancelAllSelectedProductsButton = () => cy.get('#\\:r4in\\: > :nth-child(1)')
+    static actionsWithSelectedProductsModalCancelAllSelectedProductsButton = () => cy.get('div[role="menu"] > :nth-child(1)')
 
-    static actionsWithSelectedProductsModalEditSelectedProductsButton = () => cy.get('#\\:r4in\\: > :nth-child(2)')
+    static actionsWithSelectedProductsModalEditSelectedProductsButton = () => cy.get('div[role="menu"] > :nth-child(2)')
 
-    static actionsWithSelectedProductsModalPrintButton = () => cy.get('#\\:r4jn\\:')
+    static actionsWithSelectedProductsModalPrintButton = () => cy.get('div[role="menu"] > :nth-child(3)')
 
     static actionsWithSelectedProductsModalPrintModal = () => cy.get('#\\:r4jq\\:')
 
@@ -326,7 +326,7 @@ export class ProductsSelectors {
 
     static actionsWithSelectedProductsEditModalOtherNameInput = () => cy.get('[class*=_fields_wrapper_] > :nth-child(1) > [class*=_form_control_] > input')
 
-    static actionsWithSelectedProductsEditModalArticulInput = () => cy.get('[class*=_fields_wrapper_] > :nth-child(2) > :nth-child(1) > [class*=_form_control_] > input')
+    static actionsWithSelectedProductsEditModalSKUInput = () => cy.get('[class*=_fields_wrapper_] > :nth-child(2) > :nth-child(1) > [class*=_form_control_] > input')
 
     static actionsWithSelectedProductsEditModalADGCodeInput = () => cy.get('[class*=_fields_wrapper_] > :nth-child(2) > :nth-child(2) > [class*=_form_control_] > input')
 
@@ -344,9 +344,9 @@ export class ProductsSelectors {
 
     static actionsWithSelectedProductsEditModalReturnLimitationInput = () => cy.get(':nth-child(6) > :nth-child(2) > [class*=_form_control_] > input')
 
-    static actionsWithSelectedProductsEditModalPrinterSelect = () => cy.get('#react-select-18-placeholder')
+    static actionsWithSelectedProductsEditModalPrinterSelect = () => cy.get('#react-select-13-placeholder')
 
-    static actionsWithSelectedProductsEditModalPrinterList = () => cy.get('#react-select-18-listbox')
+    static actionsWithSelectedProductsEditModalPrinterList = () => cy.get('#react-select-13-listbox')
 
     static actionsWithSelectedProductsEditModalPrinterListOptions = (index: number) => cy.get(`#react-select-18-option-${index}`)
 
@@ -354,21 +354,11 @@ export class ProductsSelectors {
 
     static actionsWithSelectedProductsEditModalDiscountInput = () => cy.get('.gap-2.my-2 > :nth-child(2) > [class*=_form_control_] > input')
 
-    static actionsWithSelectedProductsEditModalProductCategorySelect = () => cy.get('')
+    static actionsWithSelectedProductsEditModalProductCategorySelect = () => cy.get('#react-select-14-placeholder')
 
-    static actionsWithSelectedProductsEditModalProductCategoryList = () => cy.get('')
+    static actionsWithSelectedProductsEditModalProductCategoryList = () => cy.get('#react-select-14-listbox')
 
-    static actionsWithSelectedProductsEditModalProductCategoryListAdd = () => cy.get('')
-
-    static actionsWithSelectedProductsEditModalProductCategoryAddNewCategoryModal = () => cy.get('')
-
-    static actionsWithSelectedProductsEditModalProductCategoryAddNewCategoryModalNameField = () => cy.get('')
-
-    static actionsWithSelectedProductsEditModalProductCategoryAddNewCategoryModalAddButton = () => cy.get('')
-
-    static actionsWithSelectedProductsEditModalProductCategoryAddNewCategoryModalCloseButton = () => cy.get('')
-
-    static actionsWithSelectedProductsEditModalTopSelect = () => cy.get(':nth-child(1) > .react-select > .select__control > .select__value-container')
+    static actionsWithSelectedProductsEditModalTopSelect = () => cy.get('.gap-4 > :nth-child(1) > .react-select > .select__control > .select__value-container')
 
     static actionsWithSelectedProductsEditModalTopList = () => cy.get('#react-select-19-listbox')
 

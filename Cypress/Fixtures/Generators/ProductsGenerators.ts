@@ -11,8 +11,8 @@ export class ProductsGenerators {
                 description: chance.string({ length: chance.integer({ min: 1, max: 149}) }),
                 barcode: chance.string({ length: chance.integer({ min: 1, max: 20 }) }),
                 barcodeGroup: chance.string({ length: chance.integer({ min: 1, max: 20 }) }),
-                wholesalePrice: chance.integer({min:1, max: 7}),
-                retailPrice: chance.integer({min:1, max: 7}),
+                wholesalePrice: chance.integer({min:1, max: 10000}),
+                retailPrice: chance.integer({min:1, max: 10000}),
                 department: chance.integer({min: 1, max: 1000}),
                 fiscalRegister: chance.integer({min: 1, max: 100}),
                 serviceFee: chance.integer({min: 1, max: 1000}),
@@ -20,7 +20,7 @@ export class ProductsGenerators {
                 maxDiscount: chance.integer({min: 1, max: 100}),
                 discount: chance.integer({min: 1, max: 100}),
                 adgCode: chance.string({ length: chance.integer({ min: 1, max: 10 }) }),
-                sku: chance.string({ length: chance.integer({ min: 1, max: 20 }) }),
+                sku: chance.integer({ min: 1, max: 20 })
             }
         ]
     }

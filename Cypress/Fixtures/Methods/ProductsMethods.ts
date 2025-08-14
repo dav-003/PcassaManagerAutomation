@@ -1,6 +1,7 @@
 import {ProductsSelectors} from "../Selectors/ProductsSelectors";
-import {ProductAddModal} from "../Models/ProductsModels";
+import {ProductAddModal, ProductsEditModal} from "../Models/ProductsModels";
 import {ProductsGenerators} from "../Generators/ProductsGenerators";
+import {ProductTheadRowSequence} from "../Models/ProductsModels";
 import Chance from 'chance';
 const chance = new Chance();
 export class ProductsMethods {
@@ -15,7 +16,7 @@ export class ProductsMethods {
         if(data.barcode) ProductsSelectors.addProductModalBarcodeInput().type(data.barcode)
         if(data.barcodeGroup) ProductsSelectors.addProductModalBarcodeGroupInput().clear().type(data.barcodeGroup)
         if(data.adgCode) ProductsSelectors.addProductModalADGCodeInput().type(data.adgCode)
-        if(data.sku) ProductsSelectors.addProductModalSKUInput().type(data.sku)
+        if(data.sku) ProductsSelectors.addProductModalSKUInput().type(String(data.sku))
         if(data.wholesalePrice) ProductsSelectors.addProductModalWholesalePriceInput().type(String(data.wholesalePrice))
         if(data.retailPrice) ProductsSelectors.addProductModalRetailPriceInput().type(String(data.retailPrice))
         ProductsSelectors.addProductModalGroupSelect().click()
@@ -105,7 +106,7 @@ export class ProductsMethods {
         if(data.barcode) ProductsSelectors.productEditSidebarBarcodeInput().clear().type(data.barcode)
         if(data.barcodeGroup) ProductsSelectors.productEditSidebarBarcodeGroupInput().clear().type(data.barcodeGroup)
         if(data.adgCode) ProductsSelectors.productEditSidebarADGCodeInput().clear().type(data.adgCode)
-        if(data.sku) ProductsSelectors.productEditSidebarSKUInput().clear().type(data.sku)
+        if(data.sku) ProductsSelectors.productEditSidebarSKUInput().clear().type(String(data.sku))
         if(data.wholesalePrice) ProductsSelectors.productEditSidebarWholesalePriceInput().clear().type(String(data.wholesalePrice))
         if(data.retailPrice) ProductsSelectors.productEditSidebarRetailPriceInput().clear().type(String(data.retailPrice))
         ProductsSelectors.productEditSidebarGroupSelect().click()
@@ -160,5 +161,58 @@ export class ProductsMethods {
         ProductsSelectors.productEditSuccessToastify().should('be.visible').click()
         ProductsSelectors.productEditSuccessToastify().should('not.exist')
         ProductsSelectors.editProductSidebarModal().should('not.be.visible')
+    }
+    static editChoosedProductsAndValidateEdit = (rowsToCheck :number[]) => {
+        const [data]: ProductAddModal[] = ProductsGenerators.generatedProduct()
+        ProductsSelectors.actionsWithSelectedProductsEditModal().should('be.visible')
+
+        const fields: {
+            value: string | number | undefined | null
+            selector: () => Cypress.Chainable<JQuery<HTMLElement>>
+            columnIndex: ProductTheadRowSequence
+        }[] = [
+            {
+                value: data.sku,
+                selector: ProductsSelectors.actionsWithSelectedProductsEditModalSKUInput,
+                columnIndex: ProductTheadRowSequence.SKU
+            },
+            {
+                value: data.barcodeGroup,
+                selector: ProductsSelectors.actionsWithSelectedProductsEditModalGroupBarcodeInput,
+                columnIndex: ProductTheadRowSequence.BarcodeGroup
+            },
+            {
+                value: data.wholesalePrice,
+                selector: ProductsSelectors.actionsWithSelectedProductsEditModalWholesalePriceInput,
+                columnIndex: ProductTheadRowSequence.WholesalePrice
+            },
+            {
+                value: data.retailPrice,
+                selector: ProductsSelectors.actionsWithSelectedProductsEditModalRetailPriceInput,
+                columnIndex: ProductTheadRowSequence.RetailPrice
+            }
+        ]
+        fields.forEach(({ value, selector }) => {
+            if(value !== undefined && value !== null) {
+                selector().clear().type(String(value))
+            }
+        })
+        ProductsSelectors.actionsWithSelectedProductsEditModalSaveButton().click()
+        cy.wait(3000)
+        ProductsSelectors.actionsWithSelectedProductsEditModalSaveButton().should('be.disabled')
+        ProductsSelectors.actionsWithSelectedProductsEditModalCloseButton().click()
+        ProductsSelectors.actionsWithSelectedProductsEditModal().should('not.be.visible')
+
+        rowsToCheck.forEach((rowIndex: number) => {
+            fields.forEach(({ value, columnIndex }) => {
+                if (value !== undefined && value !== null) {
+                    cy.get('tbody tr')
+                        .eq(rowIndex)
+                        .find('td')
+                        .eq(columnIndex)
+                        .should('have.text', String(value))
+                }
+            })
+        })
     }
 }

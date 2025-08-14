@@ -177,5 +177,13 @@ describe('Products', () => {
                 ProductsSelectors.productsTbody().contains(newName).should('not.exist')
             })
         })
+        it('Should check grouped products edit', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyRowCheckbox(0).check()
+            ProductsSelectors.productsTbodyRowCheckbox(1).check()
+            ProductsSelectors.actionsWithSelectedProductsButton().should('be.visible').click()
+            ProductsSelectors.actionsWithSelectedProductsModalEditSelectedProductsButton().should('be.visible').click()
+            ProductsMethods.editChoosedProductsAndValidateEdit([0,1])
+        })
     })
 })

@@ -5,7 +5,7 @@ export interface ProductAddModal {
     barcode?: string;
     barcodeGroup?: string;
     adgCode?: string;
-    sku?: string;
+    sku?: number;
     wholesalePrice?: number;
     retailPrice?: number;
     department?: number;
@@ -14,6 +14,20 @@ export interface ProductAddModal {
     returnLimitation?: number;
     maxDiscount?: number;
     discount?: number;
+}
+
+export interface ProductsEditModal {
+    alternativeName?: string;
+    sku?: string;
+    adgCode?: string;
+    barcodeGroup?: string;
+    wholesalePrice?: number;
+    retailPrice?: number;
+    departments?: number;
+    fiscalRegister?: number;
+    returnLimitation?: number;
+    serviceFee?: number;
+    discount?: number
 }
 
 export enum ProductTheadSequence {
