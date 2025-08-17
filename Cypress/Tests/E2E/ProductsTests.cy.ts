@@ -41,6 +41,7 @@ describe('Products', () => {
             ProductsSelectors.addGroupButton().click()
             ProductsSelectors.groupsSearchField().should('have.attr', 'placeholder', 'Add Group')
             ProductsSelectors.expandAllGroupsButton().click()
+            cy.wait(2000)
             ProductsSelectors.groupsTreeGroups().then(($groups) => {
                 const allHaveOpen = [...$groups].every((el) =>
                     el.className.includes('_open')
@@ -48,6 +49,7 @@ describe('Products', () => {
                 expect(allHaveOpen).to.be.true
             })
             ProductsSelectors.foldGroupsButton().click()
+            cy.wait(2000)
             ProductsSelectors.groupsTreeGroups().then(($groups) => {
                 const noneHaveOpen = [...$groups].every((el) =>
                     !el.className.includes('_open')
@@ -184,6 +186,46 @@ describe('Products', () => {
             ProductsSelectors.actionsWithSelectedProductsButton().should('be.visible').click()
             ProductsSelectors.actionsWithSelectedProductsModalEditSelectedProductsButton().should('be.visible').click()
             ProductsMethods.editChoosedProductsAndValidateEdit([0,1])
+        })
+    })
+    context('Negative cases', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+            HomePageSelectors.sidebarProductsButton().click()
+        })
+
+        afterEach(() => {
+            cy.clearCookies();
+            cy.window().then(win => {
+                Object.keys(win.localStorage).forEach(key => {
+                    if (['admin', 'code', 'deviceId'].indexOf(key) === -1) {
+                        win.localStorage.removeItem(key);
+                    }
+                })
+            })
+        })
+
+        it('Should not allow to save product without filling anything', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsAddButton().click()
+            ProductsSelectors.addProductSidebarModal().should('be.visible')
+            ProductsSelectors.addProductModalAddButton().click()
+            ProductsSelectors.errorMessages().should('have.length', 5)
+        })
+
+        it.only('Should show errors for invalid products modal filling', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsAddButton().click()
+            ProductsMethods.AddInvalidProduct()
+            ProductsSelectors.errorMessages().should('have.length', 12)
         })
     })
 })

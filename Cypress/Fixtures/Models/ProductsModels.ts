@@ -5,7 +5,7 @@ export interface ProductAddModal {
     barcode?: string;
     barcodeGroup?: string;
     adgCode?: string;
-    sku?: number;
+    sku?: string;
     wholesalePrice?: number;
     retailPrice?: number;
     department?: number;

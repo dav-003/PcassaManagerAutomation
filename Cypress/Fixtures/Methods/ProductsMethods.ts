@@ -215,4 +215,23 @@ export class ProductsMethods {
             })
         })
     }
+    static AddInvalidProduct = () => {
+        const [data]: ProductAddModal[] = ProductsGenerators.invalidGeneratedProduct();
+
+        ProductsSelectors.addProductSidebarModal().should('be.visible');
+
+        if(data.name) ProductsSelectors.addProductModalNameInput().type(data.name);
+        if(data.alternativeName) ProductsSelectors.addProductModalOtherNameInput().clear().type(data.alternativeName);
+        if(data.description) ProductsSelectors.addProductModalDescriptionInput().type(data.description);
+        if(data.barcodeGroup) ProductsSelectors.addProductModalBarcodeGroupInput().type(data.barcodeGroup);
+        if(data.barcode) ProductsSelectors.addProductModalBarcodeInput().type(data.barcode);
+        if(data.wholesalePrice) ProductsSelectors.addProductModalWholesalePriceInput().type(String(data.wholesalePrice));
+        if(data.retailPrice) ProductsSelectors.addProductModalRetailPriceInput().type(String(data.retailPrice));
+        if(data.adgCode) ProductsSelectors.addProductModalADGCodeInput().type(data.adgCode);
+        if(data.sku) ProductsSelectors.addProductModalSKUInput().type(String(data.sku));
+
+        ProductsSelectors.addProductModalAddButton().click();
+
+        ProductsSelectors.addProductSidebarModal().should('be.visible');
+    }
 }

@@ -417,4 +417,6 @@ export class ProductsSelectors {
     static actionsWithSelectedProductsEditModalPaginationCurrentPage = () => cy.get('.mt-\\[10px\\] > [class*=_paginate_] > .selected > a')
 
     static successAddToastify = () => cy.get('#successAdd')
+
+    static errorMessages = () => cy.get('[class*="text-red-700"]')
 }
