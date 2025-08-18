@@ -221,7 +221,7 @@ describe('Products', () => {
             ProductsSelectors.errorMessages().should('have.length', 5)
         })
 
-        it.only('Should show errors for invalid products modal filling', () => {
+        it('Should show errors for invalid products modal filling', () => {
             HomePageSelectors.sidebarProductsButton().click()
             ProductsSelectors.productsAddButton().click()
             ProductsMethods.AddInvalidProduct()
