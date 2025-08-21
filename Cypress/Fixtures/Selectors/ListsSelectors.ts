@@ -20,7 +20,11 @@ export class ListsSelectors {
 
     static unitOfMeasurementEditButton = (index: number) => cy.get('tbody tr td:nth-child(3) button').eq(index)
 
+    static unitOfMeasurementEditButtons = () => cy.get('td:nth-child(3) button')
+
     static unitOfMeasurementDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(4) button').eq(index)
+
+    static unitOfMeasurementDeleteButtons = () => cy.get(' td:nth-child(4) button')
 
     static unitOfMeasurementEditModal = () => cy.get('[class*="_measurement_"]').contains('h4', 'Edit')
 
@@ -48,4 +52,14 @@ export class ListsSelectors {
     static unitOfMeasurementSuccessAddToast = () => cy.get('#successAdd')
 
     static unitOfMeasurementSuccessEditToast = () => cy.get('#successEdit')
+
+    static unitOfMeasurementSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static unitOfMeasurementInvalidDeleteToast = () => cy.get('#invalidMeasurementDelete')
+
+    static unitOfMeasurementInvalidEditToast = () => cy.get('#already')
+
+    static unitOfMeasurementExistUnitToast = () => cy.get('#existMeasurement')
+
+    static unitOfMeasurementEmptyFieldErrorMessage = () => cy.get('[class*=_error_]')
 }
