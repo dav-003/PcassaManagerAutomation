@@ -1,5 +1,5 @@
 import {ListsSelectors} from "../Selectors/ListsSelectors";
-import {unitOfMeasurementTheadSequence} from "../Models/ListsModels";
+import {CategoryTypesTheadSequence, unitOfMeasurementTheadSequence} from "../Models/ListsModels";
 import {ListsGenerators} from "../Generators/ListsGenerators";
 import Chance from 'chance';
 const chance = new Chance();
@@ -35,6 +35,38 @@ export class ListsMethods {
                 .then(() => ListsSelectors.unitOfMeasurementEditModalSaveButton().click())
                 .then(() => ListsSelectors.unitOfMeasurementSuccessEditToast().should('be.visible').click())
                 .then(() => ListsSelectors.unitOfMeasurementEditModal().should('not.exist'))
+                .then(() => newName)
+        })
+    }
+    static AddCategoryType = () => {
+        const name = ListsGenerators.categoryTypeNameField().name
+        return ListsSelectors.categoryTypesAddButton()
+            .click()
+            .then(() => ListsSelectors.categoryTypesAddModalNameInput().type(name))
+            .then(() => ListsSelectors.categoryTypesAddModalSaveButton().click())
+            .then(() => ListsSelectors.categoryTypesSuccessAddToast().should('be.visible').click())
+            .then(() => name)
+    }
+
+    static EditCategoryType = (name: string) => {
+        const newName = chance.string({ length: chance.integer({ min: 1, max: 20 }) });
+        return ListsSelectors.categoryTypesItems().then($items => {
+            let rowIndex = -1;
+            $items.each((index, row) => {
+                if (Cypress.$(row).find('td').eq(CategoryTypesTheadSequence.Name).text().includes(name)) {
+                    rowIndex = index;
+                    return false;
+                }
+            })
+            if (rowIndex === -1) {
+                throw new Error('Row with name "' + name + '" not found');
+            }
+            return ListsSelectors.categoryTypesEditButton(rowIndex)
+                .click()
+                .then(() => ListsSelectors.categoryTypesEditModalNameInput().clear().type(newName))
+                .then(() => ListsSelectors.categoryTypesEditModalSaveButton().click())
+                .then(() => ListsSelectors.categoryTypesSuccessEditToast().should('be.visible').click())
+                .then(() => ListsSelectors.categoryTypesEditModal().should('not.exist'))
                 .then(() => newName)
         })
     }

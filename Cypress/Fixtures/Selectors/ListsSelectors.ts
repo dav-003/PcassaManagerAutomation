@@ -62,4 +62,65 @@ export class ListsSelectors {
     static unitOfMeasurementExistUnitToast = () => cy.get('#existMeasurement')
 
     static unitOfMeasurementEmptyFieldErrorMessage = () => cy.get('[class*=_error_]')
+
+    static categoryTypesHeaderText = () => cy.get('[class*="content_title"] [class*="_title"]')
+
+    static categoryTypesTbody = () => cy.get('[class*="_tbody_"]')
+
+    static categoryTypesItems = () => cy.get('[class*="_tbody_"] tr')
+
+    static categoryTypesItem = (index: number) => cy.get('[class*="_tbody_"] tr').eq(index)
+
+    static categoryTypesAddButton = () => cy.get('[class*="px-4 py-4"] button + button')
+
+    static categoryTypesAddModal = () => cy.get('[class*="_category_types_"]')
+
+    static categoryTypesAddModalNameInput = () => cy.get('[class*="_category_types_"] input[name="name"]')
+
+    static categoryTypesAddModalCloseButton = () => cy.get('[class*="_category_types_"] [class*="right-0"]')
+
+    static categoryTypesAddModalSaveButton = () => cy.get('[class*="_category_types_"] button[type="submit"]')
+
+    static categoryTypesEditButtons = () => cy.get('td:nth-child(3) button')
+
+    static categoryTypesEditButton = (index: number) => cy.get('tbody tr td:nth-child(3) button').eq(index)
+
+    static categoryTypesDeleteButtons = () => cy.get(' td:nth-child(4) button')
+
+    static categoryTypesDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(4) button').eq(index)
+
+    static categoryTypesEditModal = () => cy.get('[class*="_category_types_"]').contains('h4', 'Edit')
+
+    static categoryTypesEditModalNameInput = () => cy.get('[class*="_category_types_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_category_types_"]')
+        .find('input[name="name"]')
+
+    static categoryTypesEditModalCloseButton = () => cy.get('[class*="_category_types_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_category_types_"]')
+        .find('[class*="right-0"]')
+
+    static categoryTypesEditModalSaveButton = () => cy.get('[class*="_category_types_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_category_types_"]')
+        .find('button[type="submit"]')
+
+    static categoryTypesDeleteModal = () => cy.get('[class*="_delete_notification"]')
+
+    static categoryTypesDeleteModalDeleteButton = () => cy.get('[class*="_delete_notification"] button[class*="shadow-gray-900/10"]')
+
+    static categoryTypesDeleteModalCancelButton = () => cy.get('[class*="_delete_notification"] button + button')
+
+    static categoryTypesSuccessAddToast = () => cy.get('#successAdd')
+
+    static categoryTypesSuccessEditToast = () => cy.get('#successEdit')
+
+    static categoryTypesSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static categoryTypesInvalidDeleteToast = () => cy.get('#invalidCategoryTypeDelete')
+
+    static categoryTypesInvalidEditToast = () => cy.get('#already')
+
+    static categoryTypesExistCategoryToast = () => cy.get('#existCategory')
 }

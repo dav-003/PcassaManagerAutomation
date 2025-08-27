@@ -294,7 +294,7 @@ export class ProductsSelectors {
 
     static productEditSidebarSaveButton = () => cy.get('[class*="_edit_product_item_"] button[type="submit"]')
 
-    static productEditSidebarCloseButton = () => cy.get('[class*="_edit_product_item_"] [class*=_close_]')
+    static productEditSidebarCloseButton = () => cy.get('[class*="_edit_product_item_"] [class*="_product_header_"] [class*=_close_]')
 
     static productEditSuccessToastify = () => cy.get('#successEdit')
 

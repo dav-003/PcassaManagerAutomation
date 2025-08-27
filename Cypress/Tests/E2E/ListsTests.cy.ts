@@ -6,13 +6,13 @@ import {SignInGenerators} from "../../Fixtures/Generators/SignInGenerators";
 import {HomePageMethods} from "../../Fixtures/Methods/HomePageMethods";
 import {Languages} from "../../Fixtures/Models/HomePageModels";
 import {HomePageSelectors} from "../../Fixtures/Selectors/HomePageSelectors";
-import {unitOfMeasurementTheadSequence} from "../../Fixtures/Models/ListsModels";
+import {CategoryTypesTheadSequence, unitOfMeasurementTheadSequence} from "../../Fixtures/Models/ListsModels";
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
 import {ProductTheadSequence} from "../../Fixtures/Models/ProductsModels";
 
 describe('Lists', ()=> {
 
-    context('UnitOfMeasurementsPositive', () => {
+    context('Unit Of Measurements Positive', () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -91,7 +91,7 @@ describe('Lists', ()=> {
                 })
         })
     })
-    context('UnitOfMeasurementsNegative', () => {
+    context('Unit Of Measurements Negative', () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -133,6 +133,85 @@ describe('Lists', ()=> {
                 ListsSelectors.unitOfMeasurementAddModalNameInput().type(name)
                 ListsSelectors.unitOfMeasurementAddModalSaveButton().click()
                 ListsSelectors.unitOfMeasurementExistUnitToast().should('be.visible')
+            })
+        })
+    })
+    context.only('Category Types Positive', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        afterEach(() => {
+            cy.clearCookies();
+            cy.window().then(win => {
+                Object.keys(win.localStorage).forEach(key => {
+                    if (['admin', 'code', 'deviceId'].indexOf(key) === -1) {
+                        win.localStorage.removeItem(key);
+                    }
+                })
+            })
+        })
+        it('Should add category type & edit', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCategoriesButton().click()
+            ListsMethods.AddCategoryType().then(name => {
+                ListsSelectors.categoryTypesAddModal().should('not.be.visible')
+                ListsMethods.EditCategoryType(name).then(newName => {
+                    ListsSelectors.categoryTypesItems()
+                        .find('td')
+                        .eq(CategoryTypesTheadSequence.Name)
+                        .contains(newName)
+                })
+            })
+        })
+        it('Should delete added category type', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCategoriesButton().click()
+            ListsSelectors.categoryTypesItems().last().find('td').eq(CategoryTypesTheadSequence.Name).invoke("text").then((deletedItemName) => {
+                ListsSelectors.categoryTypesDeleteButtons().last().click()
+                ListsSelectors.categoryTypesDeleteModal().should('be.visible')
+                ListsSelectors.categoryTypesDeleteModalDeleteButton().click()
+                ListsSelectors.categoryTypesDeleteModal().should('not.be.visible')
+                ListsSelectors.categoryTypesSuccessDeleteToast().should('be.visible')
+                ListsSelectors.categoryTypesItems().should('not.contain', deletedItemName.trim())
+            })
+        })
+        it('Should check used unit delete and edit case', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyRow(0).rightclick()
+            ProductsSelectors.productRightClickModalEditButton().click()
+            ProductsSelectors.editProductSidebarModal().should('be.visible')
+            ProductsSelectors.productEditSidebarProductCategorySelect().invoke('text').then((category) => {
+                ProductsSelectors.productEditSidebarCloseButton().click()
+                HomePageSelectors.sidebarListsButton().click()
+                HomePageSelectors.sidebarListsCategoriesButton().click()
+                ListsSelectors.categoryTypesItems()
+                    .contains('td', category)
+                    .parents('tr')
+                    .within(() => {
+                        ListsSelectors.categoryTypesDeleteButtons().click()
+                    })
+                ListsSelectors.categoryTypesDeleteModal().should('be.visible')
+                ListsSelectors.categoryTypesDeleteModalDeleteButton().click()
+                ListsSelectors.categoryTypesDeleteModal().should('not.be.visible')
+                ListsSelectors.categoryTypesInvalidDeleteToast().should('be.visible')
+                ListsSelectors.categoryTypesItems()
+                    .contains('td', category)
+                    .parents('tr')
+                    .within(() => {
+                        ListsSelectors.categoryTypesEditButtons().click()
+                    })
+                ListsSelectors.categoryTypesEditModal().should('be.visible')
+                ListsSelectors.categoryTypesEditModalNameInput().type('123')
+                ListsSelectors.categoryTypesEditModalSaveButton().click()
+                ListsSelectors.categoryTypesInvalidEditToast().should('be.visible')
             })
         })
     })
