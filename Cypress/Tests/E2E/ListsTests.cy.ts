@@ -1,14 +1,19 @@
 import {ListsSelectors} from "../../Fixtures/Selectors/ListsSelectors";
 import {ListsMethods} from "../../Fixtures/Methods/ListsMethods";
-import {ListsGenerators} from "../../Fixtures/Generators/ListsGenerators";
 import {SignInMethods} from "../../Fixtures/Methods/SignInMethods";
 import {SignInGenerators} from "../../Fixtures/Generators/SignInGenerators";
 import {HomePageMethods} from "../../Fixtures/Methods/HomePageMethods";
 import {Languages} from "../../Fixtures/Models/HomePageModels";
 import {HomePageSelectors} from "../../Fixtures/Selectors/HomePageSelectors";
-import {CategoryTypesTheadSequence, unitOfMeasurementTheadSequence} from "../../Fixtures/Models/ListsModels";
+import {ActsSelectors} from "../../Fixtures/Selectors/ActsSelectors";
+import {
+    CategoryTypesTheadSequence,
+    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence,
+    unitOfMeasurementTheadSequence
+} from "../../Fixtures/Models/ListsModels";
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
 import {ProductTheadSequence} from "../../Fixtures/Models/ProductsModels";
+import {ActsListTheadSequence} from "../../Fixtures/Models/ActsModels";
 
 describe('Lists', ()=> {
 
@@ -119,10 +124,10 @@ describe('Lists', ()=> {
             ListsSelectors.unitOfMeasurementAddModal().should('be.visible')
             ListsSelectors.unitOfMeasurementAddModalNameInput().type('   ')
             ListsSelectors.unitOfMeasurementAddModalSaveButton().click()
-            ListsSelectors.unitOfMeasurementEmptyFieldErrorMessage().should('be.visible')
+            ListsSelectors.unitOfMeasurementValidationErrorMessage().should('be.visible')
             ListsSelectors.unitOfMeasurementAddModalNameInput().type('/,.1231232131233123213213213.,/')
             ListsSelectors.unitOfMeasurementAddModalSaveButton().click()
-            ListsSelectors.unitOfMeasurementEmptyFieldErrorMessage().should('be.visible')
+            ListsSelectors.unitOfMeasurementValidationErrorMessage().should('be.visible')
         })
         it('Should check unit of measurement create with the same name', () => {
             HomePageSelectors.sidebarListsButton().click()
@@ -136,7 +141,7 @@ describe('Lists', ()=> {
             })
         })
     })
-    context.only('Category Types Positive', () => {
+    context('Category Types Positive', () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -212,6 +217,315 @@ describe('Lists', ()=> {
                 ListsSelectors.categoryTypesEditModalNameInput().type('123')
                 ListsSelectors.categoryTypesEditModalSaveButton().click()
                 ListsSelectors.categoryTypesInvalidEditToast().should('be.visible')
+            })
+        })
+    })
+    context('Category Types Negative', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        afterEach(() => {
+            cy.clearCookies();
+            cy.window().then(win => {
+                Object.keys(win.localStorage).forEach(key => {
+                    if (['admin', 'code', 'deviceId'].indexOf(key) === -1) {
+                        win.localStorage.removeItem(key);
+                    }
+                })
+            })
+        })
+        it('Should check category type invalid create', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCategoriesButton().click()
+            ListsSelectors.categoryTypesAddButton().click()
+            ListsSelectors.categoryTypesAddModal().should('be.visible')
+            ListsSelectors.categoryTypesAddModalSaveButton().click()
+            ListsSelectors.categoryTypesValidationErrorMessage().should('be.visible')
+            ListsSelectors.categoryTypesAddModalNameInput().type('   ')
+            ListsSelectors.categoryTypesAddModalSaveButton().click()
+            ListsSelectors.categoryTypesValidationErrorMessage().should('be.visible')
+            ListsSelectors.categoryTypesAddModalNameInput().clear().type('/,.1231232131233123213213213.,/')
+            ListsSelectors.categoryTypesAddModalSaveButton().click()
+            ListsSelectors.categoryTypesValidationErrorMessage().should('be.visible')
+        })
+        it('Should check category type create with the same name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCategoriesButton().click()
+            ListsSelectors.categoryTypesItem(0).find('td').eq(CategoryTypesTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.categoryTypesAddButton().click()
+                ListsSelectors.categoryTypesAddModal().should('be.visible')
+                ListsSelectors.categoryTypesAddModalNameInput().type(name)
+                ListsSelectors.categoryTypesAddModalSaveButton().click()
+                ListsSelectors.categoryTypesExistCategoryToast().should('be.visible')
+            })
+        })
+    })
+    context('List Of Payments Positive', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add list of payment & edit', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsPaymentListButton().click()
+            ListsMethods.AddListOfPayments().then(name => {
+                ListsSelectors.listOfPaymentsAddModal().should('not.be.visible')
+                ListsMethods.EditListOfPayments(name).then(newName => {
+                    ListsSelectors.listOfPaymentsTbodyItems()
+                        .find('td')
+                        .eq(listOfPaymentsTheadSequence.Name)
+                        .contains(newName)
+                })
+            })
+        })
+        it('Should delete added list of payment', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsPaymentListButton().click()
+            ListsSelectors.listOfPaymentsTbodyItems().last().find('td').eq(listOfPaymentsTheadSequence.Name).invoke("text").then((deletedItemName) => {
+                ListsSelectors.listOfPaymentsDeleteButtons().last().click()
+                ListsSelectors.listOfPaymentsDeleteModal().should('be.visible')
+                ListsSelectors.listOfPaymentsDeleteModalDeleteButton().click()
+                ListsSelectors.listOfPaymentsDeleteModal().should('not.be.visible')
+                ListsSelectors.listOfPaymentsSuccessDeleteToast().should('be.visible')
+                ListsSelectors.listOfPaymentsTbodyItems().should('not.contain', deletedItemName.trim())
+            })
+        })
+        it('Should check used list of payment delete and edit case', () => {
+            HomePageSelectors.sidebarActsButton().click()
+            HomePageSelectors.sidebarActsListOfActsButton().click()
+            ActsSelectors.listOfActsDateFromInput().click()
+            ActsSelectors.listOfActsDateFromModal().should('be.visible')
+            ListsMethods.SelectDate(1, "JAN", 2024)
+            ActsSelectors.listOfActsTbodyRow(0).find('td').eq(ActsListTheadSequence.paymentType).invoke("text").then((paymentType) => {
+                HomePageSelectors.sidebarListsButton().click()
+                HomePageSelectors.sidebarListsPaymentListButton().click()
+                ListsSelectors.listOfPaymentsTbodyItems()
+                    .contains('td', paymentType)
+                    .parents('tr')
+                    .within(() => {
+                        ListsSelectors.listOfPaymentsDeleteButtons().click()
+                    })
+                ListsSelectors.listOfPaymentsDeleteModal().should('be.visible')
+                ListsSelectors.listOfPaymentsDeleteModalDeleteButton().click()
+                ListsSelectors.listOfPaymentsDeleteModal().should('not.be.visible')
+                ListsSelectors.listOfPaymentsInvalidDeleteToast().should('be.visible')
+                ListsSelectors.listOfPaymentsTbodyItems()
+                    .contains('td', paymentType)
+                    .parents('tr').within(() => {
+                        ListsSelectors.listOfPaymentsEditButtons().click()
+                    })
+                ListsSelectors.listOfPaymentsEditModal().should('be.visible')
+                ListsSelectors.listOfPaymentsEditModalNameInput()
+                    .clear()
+                    .type(paymentType.trim() + '123')
+                ListsSelectors.listOfPaymentsEditModalSaveButton().click()
+                ListsSelectors.listOfPaymentsSuccessEditToast().should('be.visible')
+                ListsSelectors.listOfPaymentsTbodyItems()
+                    .should(($tbody) => {
+                        expect($tbody.text()).to.include(paymentType.trim() + '123')
+                    })
+            })
+        })
+    })
+    context('List Of Payments Negative', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should check list of payment invalid create', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsPaymentListButton().click()
+            ListsSelectors.listOfPaymentsAddButton().click()
+            ListsSelectors.listOfPaymentsAddModal().should('be.visible')
+            ListsSelectors.listOfPaymentsAddModalSaveButton().click()
+            ListsSelectors.listOfPaymentsValidationErrorMessage().should('be.visible')
+            ListsSelectors.listOfPaymentsAddModalNameInput().type('   ')
+            ListsSelectors.listOfPaymentsAddModalSaveButton().click()
+            ListsSelectors.listOfPaymentsValidationErrorMessage().should('be.visible')
+            ListsSelectors.listOfPaymentsAddModalNameInput().clear().type('/,.1231232131233123213213213.,/')
+            ListsSelectors.listOfPaymentsAddModalSaveButton().click()
+            ListsSelectors.listOfPaymentsValidationErrorMessage().should('be.visible')
+        })
+        it('Should check list of payment creation with the same name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsPaymentListButton().click()
+            ListsSelectors.listOfPaymentsTbodyItem(0).find('td').eq(listOfPaymentsTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.listOfPaymentsAddButton().click()
+                ListsSelectors.listOfPaymentsAddModalNameInput().type(name)
+                ListsSelectors.listOfPaymentsAddModalSaveButton().click()
+                ListsSelectors.listOfPaymentsExistPaymentToast().should('be.visible')
+            })
+        })
+        it('Should check list of payment edit cases', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsPaymentListButton().click()
+            ListsSelectors.listOfPaymentsTbodyItem(1).find('td').eq(listOfPaymentsTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.listOfPaymentsEditButton(0).click()
+                ListsSelectors.listOfPaymentsEditModal().should('be.visible')
+                ListsSelectors.listOfPaymentsEditModalNameInput().clear()
+                ListsSelectors.listOfPaymentsEditModalSaveButton().click()
+                ListsSelectors.listOfPaymentsValidationErrorMessage().should('be.visible')
+                ListsSelectors.listOfPaymentsEditModalNameInput().type(name)
+                ListsSelectors.listOfPaymentsEditModalSaveButton().click()
+                ListsSelectors.listOfPaymentsExistPaymentToast().should('be.visible')
+            })
+        })
+    })
+    context('List of warehouses Positive', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add list of warehouses & edit', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+            ListsMethods.AddListOfWarehouses().then(name => {
+                ListsSelectors.listOfWarehousesAddModal().should('not.be.visible')
+                ListsMethods.EditListOfWarehouses(name).then(newName => {
+                    ListsSelectors.listOfWarehousesTbodyItems()
+                        .find('td')
+                        .eq(listOfWarehousesTheadSequence.Name)
+                        .contains(newName)
+                })
+            })
+        })
+        it('Should delete added list of warehouses', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+            ListsSelectors.listOfWarehousesTbodyItems().last().find('td').eq(listOfWarehousesTheadSequence.Name).invoke("text").then((deletedItemName) => {
+                ListsSelectors.listOfWarehousesDeleteButtons().last().click()
+                ListsSelectors.listOfWarehousesDeleteModal().should('be.visible')
+                ListsSelectors.listOfWarehousesDeleteModalDeleteButton().click()
+                ListsSelectors.listOfWarehousesDeleteModal().should('not.be.visible')
+                ListsSelectors.listOfWarehousesSuccessDeleteToast().should('be.visible')
+                ListsSelectors.listOfWarehousesTbodyItems().should('not.contain', deletedItemName.trim())
+            })
+        })
+        it('Should check used list of warehouse delete and edit case', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+
+            ListsSelectors.listOfWarehousesDeleteButtons().then(($buttons) => {
+                let btnToClick
+                if ($buttons.eq(0).is(':disabled')) {
+                    btnToClick = $buttons.eq(1)
+                } else {
+                    btnToClick = $buttons.eq(0)
+                }
+
+                cy.wrap(btnToClick).click()
+                ListsSelectors.listOfWarehousesDeleteModal().should('be.visible')
+                ListsSelectors.listOfWarehousesDeleteModalDeleteButton().click()
+                ListsSelectors.listOfWarehousesDeleteModal().should('not.be.visible')
+                ListsSelectors.listOfWarehousesInvalidDeleteToast().should('be.visible')
+
+                ListsSelectors.listOfWarehousesTbodyItem(0)
+                    .find('td')
+                    .eq(listOfWarehousesTheadSequence.Name)
+                    .invoke('text')
+                    .then((name) => {
+                        ListsSelectors.listOfWarehousesEditButton(0).click()
+                        ListsSelectors.listOfWarehousesEditModal().should('be.visible')
+                        ListsSelectors.listOfWarehousesEditModalNameInput().clear().type('123')
+                        ListsSelectors.listOfWarehousesEditModalSaveButton().click()
+                        ListsSelectors.listOfWarehousesSuccessEditToast().should('be.visible')
+
+                        ListsSelectors.listOfWarehousesTbodyItem(0)
+                            .find('td')
+                            .eq(listOfWarehousesTheadSequence.Name)
+                            .should('have.text', '123')
+
+                        ListsSelectors.listOfWarehousesEditButton(0).click()
+                        ListsSelectors.listOfWarehousesEditModal().should('be.visible')
+                        ListsSelectors.listOfWarehousesEditModalNameInput().clear().type(name.trim())
+                        ListsSelectors.listOfWarehousesEditModalSaveButton().click()
+                        ListsSelectors.listOfWarehousesSuccessEditToast().should('be.visible')
+
+                        ListsSelectors.listOfWarehousesTbodyItem(0)
+                            .find('td')
+                            .eq(listOfWarehousesTheadSequence.Name)
+                            .should('have.text', name.trim())
+                    })
+            })
+        })
+    })
+    context('List of warehouses Negative', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should check list of warehouses invalid create', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+            ListsSelectors.listOfWarehousesAddButton().click()
+            ListsSelectors.listOfWarehousesAddModal().should('be.visible')
+            ListsSelectors.listOfWarehousesAddModalSaveButton().click()
+            ListsSelectors.listOfWarehousesValidationErrorMessage().should('be.visible')
+            ListsSelectors.listOfWarehousesAddModalNameInput().type('   ')
+            ListsSelectors.listOfWarehousesAddModalSaveButton().click()
+            ListsSelectors.listOfWarehousesValidationErrorMessage().should('be.visible')
+            ListsSelectors.listOfWarehousesAddModalNameInput().clear().type('/,.1231232131233123213213213.,/')
+            ListsSelectors.listOfWarehousesAddModalSaveButton().click()
+            ListsSelectors.listOfWarehousesValidationErrorMessage().should('be.visible')
+        })
+        it('Should check list of warehouses creation with the same name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+            ListsSelectors.listOfWarehousesTbodyItem(0).find('td').eq(listOfWarehousesTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.listOfWarehousesAddButton().click()
+                ListsSelectors.listOfWarehousesAddModalNameInput().type(name)
+                ListsSelectors.listOfWarehousesAddModalSaveButton().click()
+                ListsSelectors.listOfWarehousesExistWarehouseToast().should('be.visible')
+            })
+        })
+        it('Should check list of warehouses edit cases', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsWarehousesButton().click()
+            ListsSelectors.listOfWarehousesTbodyItem(1).find('td').eq(listOfWarehousesTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.listOfWarehousesEditButton(0).click()
+                ListsSelectors.listOfWarehousesEditModal().should('be.visible')
+                ListsSelectors.listOfWarehousesEditModalNameInput().clear()
+                ListsSelectors.listOfWarehousesEditModalSaveButton().click()
+                ListsSelectors.listOfWarehousesValidationErrorMessage().should('be.visible')
+                ListsSelectors.listOfWarehousesEditModalNameInput().type(name)
+                ListsSelectors.listOfWarehousesEditModalSaveButton().click()
+                ListsSelectors.listOfWarehousesExistWarehouseToast().should('be.visible')
             })
         })
     })
