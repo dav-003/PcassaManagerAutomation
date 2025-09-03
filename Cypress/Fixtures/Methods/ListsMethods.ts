@@ -1,5 +1,6 @@
 import {ListsSelectors} from "../Selectors/ListsSelectors";
 import {
+    cashRegisterTypesAddFields,
     CategoryTypesTheadSequence,
     listOfWarehousesTheadSequence,
     unitOfMeasurementTheadSequence
@@ -177,4 +178,67 @@ export class ListsMethods {
                 .then(() => newName)
         })
     }
+    static AddCashRegisterType = (
+        fields: Partial<cashRegisterTypesAddFields> = {}
+    ): Cypress.Chainable<Partial<cashRegisterTypesAddFields>> => {
+        const data: Partial<cashRegisterTypesAddFields> = { ...fields }
+
+        return ListsSelectors.cashRegisterTypesAddButton().click()
+            .then(() => {
+                if (data.name) {
+                    ListsSelectors.cashRegisterTypesAddModalNameInput().type(data.name)
+                }
+                if (data.bankAccount) {
+                    ListsSelectors.cashRegisterTypesAddModalBankAccountInput().type(data.bankAccount)
+                }
+                if (data.description) {
+                    ListsSelectors.cashRegisterTypesAddModalDescriptionInput().type(data.description)
+                }
+
+                ListsSelectors.cashRegisterTypesAddModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesSuccessAddToast().should('be.visible').click()
+            })
+            .then(() => {
+                return cy.wrap(data)
+            })
+    }
+
+    static EditCashRegisterType = (
+        fields: Partial<cashRegisterTypesAddFields> = {},
+        index: number
+    ): Cypress.Chainable<Partial<cashRegisterTypesAddFields>> => {
+        const data: Partial<cashRegisterTypesAddFields> = { ...fields }
+
+        return ListsSelectors.cashRegisterTypesEditButton(index).click()
+            .then(() => {
+                if (data.name) {
+                    const newName = data.name ?? ListsGenerators.cashRegisterTypesNameField().name
+                    ListsSelectors.cashRegisterTypesEditModalNameInput()
+                        .clear()
+                        .type(newName)
+                    data.name = newName
+                }
+                if (data.bankAccount) {
+                    const newBank = data.bankAccount ?? ListsGenerators.cashRegisterTypesBankAccountField().bankAccount
+                    ListsSelectors.cashRegisterTypesEditModalBankAccountInput()
+                        .clear()
+                        .type(newBank)
+                    data.bankAccount = newBank
+                }
+                if (data.description) {
+                    const newDesc = data.description ?? ListsGenerators.cashRegisterTypesDescriptionField().description
+                    ListsSelectors.cashRegisterTypesEditModalDescriptionInput()
+                        .clear()
+                        .type(newDesc)
+                    data.description = newDesc
+                }
+
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesSuccessEditToast().should('be.visible').click()
+            })
+            .then(() => {
+                return cy.wrap(data)
+            })
+    }
+
 }

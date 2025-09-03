@@ -251,4 +251,82 @@ export class ListsSelectors {
     static listOfWarehousesExistWarehouseToast = () => cy.get('#existWarehouseList')
 
     static listOfWarehousesValidationErrorMessage = () => cy.get('[class*=_error_]')
+
+    static cashRegisterTypesHeaderText = () => cy.get('[class*="content_title"] [class*="_title"]')
+
+    static cashRegisterTypesTbody = () => cy.get('[class*="_tbody_"]')
+
+    static cashRegisterTypesTbodyItems = () => cy.get('[class*="_tbody_"] tr')
+
+    static cashRegisterTypesTbodyItem = (index: number) => cy.get('[class*="_tbody_"] tr').eq(index)
+
+    static cashRegisterTypesAddButton = () => cy.get('[class*="px-4 py-4"] button + button')
+
+    static cashRegisterTypesAddModal = () => cy.get('[class*="_cash_register_type_"]')
+
+    static cashRegisterTypesAddModalNameInput = () => cy.get('[class*="_cash_register_type_"] input[name="name"]')
+
+    static cashRegisterTypesAddModalBankAccountInput = () => cy.get('[class*="_cash_register_type_"] input[name="rshet"]')
+
+    static cashRegisterTypesAddModalDescriptionInput = () => cy.get('[class*="_cash_register_type_"] textarea[name="prim"]')
+
+    static cashRegisterTypesAddModalCloseButton = () => cy.get('[class*="_cash_register_type_"] [class*="right-0"]')
+
+    static cashRegisterTypesAddModalSaveButton = () => cy.get('[class*="_cash_register_type_"] button[type="submit"]')
+
+    static cashRegisterTypesEditButtons = () => cy.get('td:nth-child(5) button')
+
+    static cashRegisterTypesEditButton = (index: number) => cy.get('tbody tr td:nth-child(5) button').eq(index)
+
+    static cashRegisterTypesDeleteButtons = () => cy.get(' td:nth-child(6) button')
+
+    static cashRegisterTypesDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(6) button').eq(index)
+
+    static cashRegisterTypesEditModal = () => cy.get('[class*="_cash_register_type_"]').contains('h4', 'Edit')
+
+    static cashRegisterTypesEditModalNameInput = () => cy.get('[class*="_cash_register_type_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_cash_register_type_"]')
+        .find('input[name="name"]')
+
+    static cashRegisterTypesEditModalBankAccountInput = () => cy.get('[class*="_cash_register_type_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_cash_register_type_"]')
+        .find('input[name="rshet"]')
+
+    static cashRegisterTypesEditModalDescriptionInput = () => cy.get('[class*="_cash_register_type_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_cash_register_type_"]')
+        .find('textarea[name="prim"]')
+
+    static cashRegisterTypesEditModalCloseButton = () => cy.get('[class*="_cash_register_type_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_cash_register_type_"]')
+        .find('[class*="right-0"]')
+
+    static cashRegisterTypesEditModalSaveButton = () => cy.get('[class*="_cash_register_type_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_cash_register_type_"]')
+        .find('button[type="submit"]')
+
+    static cashRegisterTypesDeleteModal = () => cy.get('[class*="_delete_notification"]')
+
+    static cashRegisterTypesDeleteModalDeleteButton = () => cy.get('[class*="_delete_notification"] button[class*="shadow-gray-900/10"]')
+
+    static cashRegisterTypesDeleteModalCancelButton = () => cy.get('[class*="_delete_notification"] button + button')
+
+    static cashRegisterTypesSuccessAddToast = () => cy.get('#successAdd')
+
+    static cashRegisterTypesSuccessEditToast = () => cy.get('#successEdit')
+
+    static cashRegisterTypesSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static cashRegisterTypesInvalidDeleteToast = () => cy.get('#invalidCashRegisterTypeDelete')
+
+    static cashRegisterTypesInvalidEditToast = () => cy.get('#already')
+
+    static cashRegisterTypesExistCashRegisterTypeToast = () => cy.get('#existCashRegisterType')
+
+    static cashRegisterTypesValidationErrorMessage = () => cy.get('[class*=_error_]')
+
 }

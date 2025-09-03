@@ -27,6 +27,15 @@ export enum listOfWarehousesTheadSequence {
     Delete = 4
 }
 
+export enum cashRegisterTypesTheadSequence {
+    ID = 0,
+    Name = 1,
+    BankAccount = 2,
+    Description = 3,
+    Edit = 4,
+    Delete = 5
+}
+
 export interface unitOfMeasurementNameField {
     name: string;
 }
@@ -41,4 +50,10 @@ export interface listOfPaymentsNameField {
 
 export interface listOfWarehousesNameField {
     name: string;
+}
+
+export interface cashRegisterTypesAddFields {
+    name?: string;
+    bankAccount?: string;
+    description?: string;
 }

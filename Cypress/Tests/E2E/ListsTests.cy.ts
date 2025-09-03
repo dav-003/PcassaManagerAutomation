@@ -7,6 +7,7 @@ import {Languages} from "../../Fixtures/Models/HomePageModels";
 import {HomePageSelectors} from "../../Fixtures/Selectors/HomePageSelectors";
 import {ActsSelectors} from "../../Fixtures/Selectors/ActsSelectors";
 import {
+    cashRegisterTypesTheadSequence,
     CategoryTypesTheadSequence,
     listOfPaymentsTheadSequence, listOfWarehousesTheadSequence,
     unitOfMeasurementTheadSequence
@@ -14,6 +15,7 @@ import {
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
 import {ProductTheadSequence} from "../../Fixtures/Models/ProductsModels";
 import {ActsListTheadSequence} from "../../Fixtures/Models/ActsModels";
+import {ListsGenerators} from "../../Fixtures/Generators/ListsGenerators";
 
 describe('Lists', ()=> {
 
@@ -526,6 +528,46 @@ describe('Lists', ()=> {
                 ListsSelectors.listOfWarehousesEditModalNameInput().type(name)
                 ListsSelectors.listOfWarehousesEditModalSaveButton().click()
                 ListsSelectors.listOfWarehousesExistWarehouseToast().should('be.visible')
+            })
+        })
+    })
+    context.only("Cash register types Positive", () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add cash register type & edit', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                name: ListsGenerators.cashRegisterTypesNameField().name,
+                bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
+                description: ListsGenerators.cashRegisterTypesDescriptionField().description
+            }).then(cashRegister => {
+                ListsSelectors.cashRegisterTypesTbodyItem(0)
+                    .find('td')
+                    .eq(cashRegisterTypesTheadSequence.Name)
+                    .should('contain.text', cashRegister.name)
+                ListsSelectors.cashRegisterTypesTbodyItem(0)
+                    .find('td')
+                    .eq(cashRegisterTypesTheadSequence.BankAccount)
+                    .should('contain.text', cashRegister.bankAccount)
+                ListsSelectors.cashRegisterTypesTbodyItem(0)
+                    .find('td')
+                    .eq(cashRegisterTypesTheadSequence.Description)
+                    .should('contain.text', cashRegister.description)
+                ListsMethods.EditCashRegisterType({
+                    name: ListsGenerators.cashRegisterTypesNameField().name,
+                    bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
+                    description: ListsGenerators.cashRegisterTypesDescriptionField().description
+                }, 0)
             })
         })
     })
