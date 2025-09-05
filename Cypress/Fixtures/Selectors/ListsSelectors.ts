@@ -282,31 +282,31 @@ export class ListsSelectors {
 
     static cashRegisterTypesDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(6) button').eq(index)
 
-    static cashRegisterTypesEditModal = () => cy.get('[class*="_cash_register_type_"]').contains('h4', 'Edit')
+    static cashRegisterTypesEditModal = () => cy.get('[class*="z-[9999]"]').contains('h4', 'Edit')
 
-    static cashRegisterTypesEditModalNameInput = () => cy.get('[class*="_cash_register_type_"]')
+    static cashRegisterTypesEditModalNameInput = () => cy.get('[class*="z-[9999]"]')
         .contains('h4', 'Edit')
-        .parents('[class*="_cash_register_type_"]')
+        .parents('[class*="z-[9999]"]')
         .find('input[name="name"]')
 
-    static cashRegisterTypesEditModalBankAccountInput = () => cy.get('[class*="_cash_register_type_"]')
+    static cashRegisterTypesEditModalBankAccountInput = () => cy.get('[class*="z-[9999]"]')
         .contains('h4', 'Edit')
-        .parents('[class*="_cash_register_type_"]')
+        .parents('[class*="z-[9999]"]')
         .find('input[name="rshet"]')
 
-    static cashRegisterTypesEditModalDescriptionInput = () => cy.get('[class*="_cash_register_type_"]')
+    static cashRegisterTypesEditModalDescriptionInput = () => cy.get('[class*="z-[9999]"]')
         .contains('h4', 'Edit')
-        .parents('[class*="_cash_register_type_"]')
+        .parents('[class*="z-[9999]"]')
         .find('textarea[name="prim"]')
 
-    static cashRegisterTypesEditModalCloseButton = () => cy.get('[class*="_cash_register_type_"]')
+    static cashRegisterTypesEditModalCloseButton = () => cy.get('[class*="z-[9999]"]')
         .contains('h4', 'Edit')
-        .parents('[class*="_cash_register_type_"]')
+        .parents('[class*="z-[9999]"]')
         .find('[class*="right-0"]')
 
-    static cashRegisterTypesEditModalSaveButton = () => cy.get('[class*="_cash_register_type_"]')
+    static cashRegisterTypesEditModalSaveButton = () => cy.get('[class*="z-[9999]"]')
         .contains('h4', 'Edit')
-        .parents('[class*="_cash_register_type_"]')
+        .parents('[class*="z-[9999]"]')
         .find('button[type="submit"]')
 
     static cashRegisterTypesDeleteModal = () => cy.get('[class*="_delete_notification"]')

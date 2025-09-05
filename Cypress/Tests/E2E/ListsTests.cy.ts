@@ -16,6 +16,9 @@ import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
 import {ProductTheadSequence} from "../../Fixtures/Models/ProductsModels";
 import {ActsListTheadSequence} from "../../Fixtures/Models/ActsModels";
 import {ListsGenerators} from "../../Fixtures/Generators/ListsGenerators";
+import {ActsMethods} from "../../Fixtures/Methods/ActsMethods";
+import {CashOrderSelectors} from "../../Fixtures/Selectors/CashOrderSelectors";
+import {CashOrderMethods} from "../../Fixtures/Methods/CashOrderMethods";
 
 describe('Lists', ()=> {
 
@@ -312,7 +315,7 @@ describe('Lists', ()=> {
             HomePageSelectors.sidebarActsListOfActsButton().click()
             ActsSelectors.listOfActsDateFromInput().click()
             ActsSelectors.listOfActsDateFromModal().should('be.visible')
-            ListsMethods.SelectDate(1, "JAN", 2024)
+            ActsMethods.SelectDate(1, "JAN", 2024)
             ActsSelectors.listOfActsTbodyRow(0).find('td').eq(ActsListTheadSequence.paymentType).invoke("text").then((paymentType) => {
                 HomePageSelectors.sidebarListsButton().click()
                 HomePageSelectors.sidebarListsPaymentListButton().click()
@@ -531,7 +534,7 @@ describe('Lists', ()=> {
             })
         })
     })
-    context.only("Cash register types Positive", () => {
+    context("Cash register types Positive", () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -569,6 +572,25 @@ describe('Lists', ()=> {
                     description: ListsGenerators.cashRegisterTypesDescriptionField().description
                 }, 0)
             })
+        })
+        it('Should delete added cash register type', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsSelectors.cashRegisterTypesTbodyItems().last().find('td').eq(cashRegisterTypesTheadSequence.Name).invoke("text").then((deletedItemName) => {
+                ListsSelectors.cashRegisterTypesDeleteButtons().last().click()
+                ListsSelectors.cashRegisterTypesDeleteModal().should('be.visible')
+                ListsSelectors.cashRegisterTypesDeleteModalDeleteButton().click()
+                ListsSelectors.cashRegisterTypesDeleteModal().should('not.be.visible')
+                ListsSelectors.cashRegisterTypesSuccessDeleteToast().should('be.visible')
+                ListsSelectors.cashRegisterTypesTbodyItems().should('not.contain', deletedItemName.trim())
+            })
+        })
+        it.only('Should check used cash register type delete and edit case', () => {
+            HomePageSelectors.sidebarCashOrderButton().click()
+            HomePageSelectors.sidebarCashOrderListOfCashOrdersButton().click()
+            CashOrderSelectors.listOfCashOrderDateFromInput().click()
+            CashOrderSelectors.listOfCashOrderDateFromModal().should('be.visible')
+            CashOrderMethods.SelectDate(1, "DEC", 2024)
         })
     })
 })
