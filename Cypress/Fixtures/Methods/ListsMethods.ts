@@ -157,7 +157,6 @@ export class ListsMethods {
                 }
 
                 ListsSelectors.cashRegisterTypesAddModalSaveButton().click()
-                ListsSelectors.cashRegisterTypesSuccessAddToast().should('be.visible').click()
             })
             .then(() => {
                 return cy.wrap(data)
@@ -196,7 +195,6 @@ export class ListsMethods {
                 }
 
                 ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
-                ListsSelectors.cashRegisterTypesSuccessEditToast().should('be.visible').click()
             })
             .then(() => {
                 return cy.wrap(data)

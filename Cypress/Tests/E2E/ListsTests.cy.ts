@@ -19,6 +19,7 @@ import {ListsGenerators} from "../../Fixtures/Generators/ListsGenerators";
 import {ActsMethods} from "../../Fixtures/Methods/ActsMethods";
 import {CashOrderSelectors} from "../../Fixtures/Selectors/CashOrderSelectors";
 import {CashOrderMethods} from "../../Fixtures/Methods/CashOrderMethods";
+import {CashOrderListTheadSequence} from "../../Fixtures/Models/CashOrderModels";
 
 describe('Lists', ()=> {
 
@@ -554,6 +555,7 @@ describe('Lists', ()=> {
                 bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
                 description: ListsGenerators.cashRegisterTypesDescriptionField().description
             }).then(cashRegister => {
+                ListsSelectors.cashRegisterTypesSuccessAddToast().should('be.visible').click()
                 ListsSelectors.cashRegisterTypesTbodyItem(0)
                     .find('td')
                     .eq(cashRegisterTypesTheadSequence.Name)
@@ -571,6 +573,7 @@ describe('Lists', ()=> {
                     bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
                     description: ListsGenerators.cashRegisterTypesDescriptionField().description
                 }, 0)
+                ListsSelectors.cashRegisterTypesSuccessEditToast().should('be.visible').click()
             })
         })
         it('Should delete added cash register type', () => {
@@ -585,12 +588,154 @@ describe('Lists', ()=> {
                 ListsSelectors.cashRegisterTypesTbodyItems().should('not.contain', deletedItemName.trim())
             })
         })
-        it.only('Should check used cash register type delete and edit case', () => {
+        it('Should check used cash register type delete and edit case', () => {
             HomePageSelectors.sidebarCashOrderButton().click()
             HomePageSelectors.sidebarCashOrderListOfCashOrdersButton().click()
             CashOrderSelectors.listOfCashOrderDateFromInput().click()
             CashOrderSelectors.listOfCashOrderDateFromModal().should('be.visible')
             CashOrderMethods.SelectDate(1, "DEC", 2024)
+            CashOrderSelectors.listOfCashOrderTbodyRow(0).find('td').eq(CashOrderListTheadSequence.cashRegisterType).invoke("text").then((cashRegisterType) => {
+                HomePageSelectors.sidebarListsButton().click()
+                HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+                ListsSelectors.cashRegisterTypesTbodyItems().contains('td', cashRegisterType).parents('tr').within(() => {
+                    ListsSelectors.cashRegisterTypesDeleteButtons().click()
+                })
+                ListsSelectors.cashRegisterTypesDeleteModal().should('be.visible')
+                ListsSelectors.cashRegisterTypesDeleteModalDeleteButton().click()
+                ListsSelectors.cashRegisterTypesDeleteModal().should('not.be.visible')
+                ListsSelectors.cashRegisterTypesInvalidDeleteToast().should('be.visible')
+                ListsSelectors.cashRegisterTypesTbodyItems().contains('td', cashRegisterType).parents('tr').within(() => {
+                    ListsSelectors.cashRegisterTypesEditButtons().click()
+                })
+                ListsSelectors.cashRegisterTypesEditModal().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModalNameInput().clear().type(cashRegisterType.trim() + '123')
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesSuccessEditToast().should('be.visible')
+                ListsSelectors.cashRegisterTypesTbodyItems().should(($tbody) => {
+                    expect($tbody.text()).to.include(cashRegisterType.trim() + '123')
+                })
+            })
+        })
+    })
+    context("Cash register types Negative", () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should check cash register type empty create', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({})
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 3)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type create with only name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                name: ListsGenerators.cashRegisterTypesNameField().name
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 2)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type create with only bank account', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 2)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type create with only description', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                description: ListsGenerators.cashRegisterTypesDescriptionField().description
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 2)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type creation without name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
+                description: ListsGenerators.cashRegisterTypesDescriptionField().description
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 1)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type creation without bank account', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                name: ListsGenerators.cashRegisterTypesNameField().name,
+                description: ListsGenerators.cashRegisterTypesDescriptionField().description
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 1)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type creation without description', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsMethods.AddCashRegisterType({
+                name: ListsGenerators.cashRegisterTypesNameField().name,
+                bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount
+            })
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 1)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type creation with long names', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsSelectors.cashRegisterTypesAddButton().click()
+            ListsSelectors.cashRegisterTypesAddModalNameInput().type('/1231!~^@~@^(__~_(+({}{L:":/.,mz@$^&#x351sa1234')
+            ListsSelectors.cashRegisterTypesAddModalBankAccountInput().type('/1231!~^@~@^(__~_(+({}{L:":/.,mz@$^&#x351sa1234')
+            ListsSelectors.cashRegisterTypesAddModalDescriptionInput().type('/1231!~^@~@^(__~_(+({}{L:":/.,mz@$^&#x351sa1234')
+            ListsSelectors.cashRegisterTypesAddModalSaveButton().click()
+            ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible').and('have.length', 3)
+            ListsSelectors.cashRegisterTypesAddModal().should('be.visible')
+        })
+        it('Should check cash register type creation with same name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsSelectors.cashRegisterTypesTbodyItem(0).find('td').eq(cashRegisterTypesTheadSequence.Name).invoke("text").then((name) => {
+                ListsMethods.AddCashRegisterType({
+                    name: name,
+                    bankAccount: ListsGenerators.cashRegisterTypesBankAccountField().bankAccount,
+                    description: ListsGenerators.cashRegisterTypesDescriptionField().description
+                })
+                ListsSelectors.cashRegisterTypesExistCashRegisterTypeToast().should('be.visible')
+            })
+        })
+        it('Should check cash register type edit cases', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCashRegisterTypesButton().click()
+            ListsSelectors.cashRegisterTypesTbodyItem(1).find('td').eq(cashRegisterTypesTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.cashRegisterTypesEditButton(0).click()
+                ListsSelectors.cashRegisterTypesEditModal().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModalNameInput().clear()
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModalNameInput().type(name)
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesExistCashRegisterTypeToast().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModalBankAccountInput().clear()
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModalDescriptionInput().clear()
+                ListsSelectors.cashRegisterTypesEditModalSaveButton().click()
+                ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible')
+                ListsSelectors.cashRegisterTypesEditModal().should('be.visible')
+            })
         })
     })
 })

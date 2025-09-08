@@ -36,6 +36,14 @@ export enum cashRegisterTypesTheadSequence {
     Delete = 5
 }
 
+export enum productColorTheadSequence {
+    ID = 0,
+    Name = 1,
+    Color = 2,
+    Edit = 3,
+    Delete = 4
+}
+
 export interface unitOfMeasurementNameField {
     name: string;
 }

@@ -329,4 +329,87 @@ export class ListsSelectors {
 
     static cashRegisterTypesValidationErrorMessage = () => cy.get('[class*=_error_]')
 
+    static productColorHeaderText = () => cy.get('[class*="content_title"] [class*="_title"]')
+
+    static productColorTbody = () => cy.get('[class*="_tbody_"]')
+
+    static productColorTbodyItems = () => cy.get('[class*="_tbody_"] tr')
+
+    static productColorTbodyItem = (index: number) => cy.get('[class*="_tbody_"] tr').eq(index)
+
+    static productColorAddButton = () => cy.get('[class*="px-4 py-4"] button + button')
+
+    static productColorAddModal = () => cy.get('[class*="_product_colors_"]')
+
+    static productColorAddModalColorToneSection = () => cy.get('[class*="_product_colors_"] [class="react-colorful"] > [class*="react-colorful__saturation"]')
+
+    static productColorAddModalColorChoosingSection = () => cy.get('[class*="_product_colors_"] [class="react-colorful__hue"]')
+
+    static productColorAddModalColorOpacitySection = () => cy.get('[class*="_product_colors_"] [class="react-colorful__alpha react-colorful__last-control"]')
+
+    static productColorAddModalResultColorField = () => cy.get('[class*="_product_colors_"] [class*="w-full h-[50px]"]')
+
+    static productColorAddModalSaveButton = () => cy.get('[class*="_product_colors_"] button[type="submit"]')
+
+    static productColorAddModalCloseButton = () => cy.get('[class*="_product_colors_"] [class*="right-0"]')
+
+    static productColorEditButtons = () => cy.get('td:nth-child(4) button')
+
+    static productColorEditButton = (index: number) => cy.get('tbody tr td:nth-child(4) button').eq(index)
+
+    static productColorDeleteButtons = () => cy.get(' td:nth-child(5) button')
+
+    static productColorDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(5) button').eq(index)
+
+    static productColorEditModal = () => cy.get('[class*="_product_colors_"]').contains('h4', 'Edit')
+
+    static productColorEditModalColorToneSection = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('[class="react-colorful"] > [class*="react-colorful__saturation"]')
+
+    static productColorEditModalColorChoosingSection = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('[class="react-colorful__hue"]')
+
+    static productColorEditModalColorOpacitySection = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('[class="react-colorful__alpha react-colorful__last-control"]')
+
+    static productColorEditModalResultColorField = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('[class*="w-full h-[50px]"]')
+
+    static productColorEditModalSaveButton = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('button[type="submit"]')
+
+    static productColorEditModalCloseButton = () => cy.get('[class*="_product_colors_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_colors_"]')
+        .find('[class*="right-0"]')
+
+    static productColorDeleteModal = () => cy.get('[class*="_delete_notification"]')
+
+    static productColorDeleteModalDeleteButton = () => cy.get('[class*="_delete_notification"] button[class*="shadow-gray-900/10"]')
+
+    static productColorDeleteModalCancelButton = () => cy.get('[class*="_delete_notification"] button + button')
+
+    static productColorSuccessAddToast = () => cy.get('#successAdd')
+
+    static productColorSuccessEditToast = () => cy.get('#successEdit')
+
+    static productColorSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static productColorInvalidDeleteToast = () => cy.get('#invalidProductColorDelete')
+
+    static productColorInvalidEditToast = () => cy.get('#already')
+
+    static productColorExistProductColorToast = () => cy.get('#existProductColor')
+
+    static productColorValidationErrorMessage = () => cy.get('[class*=_error_]')
 }
