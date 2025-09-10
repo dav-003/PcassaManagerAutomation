@@ -200,5 +200,16 @@ export class ListsMethods {
                 return cy.wrap(data)
             })
     }
+    static clickRandomInSection(element: Cypress.Chainable<JQuery<HTMLElement>>) {
+        element.then($el => {
+            const width = $el.width() ?? 0
+            const height = $el.height() ?? 0
+
+            const x = Math.floor(Math.random() * width)
+            const y = Math.floor(Math.random() * height)
+
+            cy.wrap($el).click(x, y)
+        })
+    }
 
 }

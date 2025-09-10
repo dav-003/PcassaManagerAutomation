@@ -361,6 +361,10 @@ export class ListsSelectors {
 
     static productColorDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(5) button').eq(index)
 
+    static productColorTbodyColors = () => cy.get('[class*="_tbody_"] tr td:nth-child(3) div[style]')
+
+    static productColorTbodyColor = (index: number) => cy.get('[class*="_tbody_"] tr td:nth-child(3) div[style]').eq(index)
+
     static productColorEditModal = () => cy.get('[class*="_product_colors_"]').contains('h4', 'Edit')
 
     static productColorEditModalColorToneSection = () => cy.get('[class*="_product_colors_"]')

@@ -9,7 +9,7 @@ import {ActsSelectors} from "../../Fixtures/Selectors/ActsSelectors";
 import {
     cashRegisterTypesTheadSequence,
     CategoryTypesTheadSequence,
-    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence,
+    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence, productColorTheadSequence,
     unitOfMeasurementTheadSequence
 } from "../../Fixtures/Models/ListsModels";
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
@@ -736,6 +736,62 @@ describe('Lists', ()=> {
                 ListsSelectors.cashRegisterTypesValidationErrorMessage().should('be.visible')
                 ListsSelectors.cashRegisterTypesEditModal().should('be.visible')
             })
+        })
+    })
+    context.only('Product Color Positive', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add color', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsProductColorButton().click()
+            ListsSelectors.productColorAddButton().click()
+            ListsSelectors.productColorAddModal().should('be.visible')
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorAddModalColorChoosingSection())
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorAddModalColorOpacitySection())
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorAddModalColorToneSection())
+            ListsSelectors.productColorAddModalResultColorField()
+                .invoke('css', 'background-color')
+                .then((color) => {
+                    ListsSelectors.productColorAddModalSaveButton().click()
+                    ListsSelectors.productColorSuccessAddToast().should('be.visible').click()
+                    ListsSelectors.productColorAddModal().should('not.be.visible')
+                    ListsSelectors.productColorTbodyColor(0).should('have.css', 'background-color', color)
+                })
+        })
+        it('Should edit color', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsProductColorButton().click()
+            ListsSelectors.productColorEditButtons().last().click()
+            ListsSelectors.productColorEditModal().should('be.visible')
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorEditModalColorChoosingSection())
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorEditModalColorOpacitySection())
+            ListsMethods.clickRandomInSection(ListsSelectors.productColorEditModalColorToneSection())
+            ListsSelectors.productColorEditModalResultColorField()
+                .invoke('css', 'background-color')
+                .then((color) => {
+                    ListsSelectors.productColorEditModalSaveButton().click()
+                    ListsSelectors.productColorSuccessEditToast().should('be.visible').click()
+                    ListsSelectors.productColorEditModal().should('not.exist')
+                    ListsSelectors.productColorTbodyColors().last().should('have.css', 'background-color', color)
+                })
+        })
+        it('Should delete color', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsProductColorButton().click()
+            ListsSelectors.productColorDeleteButtons().last().click()
+            ListsSelectors.productColorDeleteModal().should('be.visible')
+            ListsSelectors.productColorDeleteModalDeleteButton().click()
+            ListsSelectors.productColorDeleteModal().should('not.be.visible')
+            ListsSelectors.productColorSuccessDeleteToast().should('be.visible')
         })
     })
 })
