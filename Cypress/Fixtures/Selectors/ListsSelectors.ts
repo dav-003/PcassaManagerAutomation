@@ -416,4 +416,93 @@ export class ListsSelectors {
     static productColorExistProductColorToast = () => cy.get('#existProductColor')
 
     static productColorValidationErrorMessage = () => cy.get('[class*=_error_]')
+
+    static sizeHeaderText = () => cy.get('[class*="content_title"] [class*="_title"]')
+
+    static sizeGroupSection = () => cy.get('[class*="product_size"] > [class*="_group_"]')
+
+    static sizeGroupAddButton = () => cy.get('[class*="product_size"] [class*="_group_header"] button')
+
+    static sizeGroupCloseButton = () => cy.get('[class*="product_size"] [class*="_group_header"] [class*="_close_"]')
+
+    static sizeGroupAddField = () => cy.get('[class*="product_size"] [class*="_group_header"] input[name="name"]')
+
+    static sizeGroupList = () => cy.get('[class*="product_size"] [class*="_groups_list"]')
+
+    static sizeGroupListItems = () => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="_item_"]')
+
+    static sizeGroupListItem = (index: number) => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="_item_"]').eq(index)
+
+    static sizeGroupListItemNames = () => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="group_name_"]')
+
+    static sizeGroupEditButtons = () => cy.get('#edit-button')
+
+    static sizeGroupEditButton = (index: number) => cy.get('#edit-button').eq(index)
+
+    static sizeGroupDeleteButtons = () => cy.get('[class*="delete-block"] button')
+
+    static sizeGroupDeleteButton = (index: number) => cy.get('[class*="delete-block"] button').eq(index)
+
+    static sizeTableHeader = () => cy.get('[class*="_subgroup_title"]')
+
+    static sizeAddButton = () => cy.get('[class*="_subgroup_header"] button')
+
+    static sizeAddModal = () => cy.get('div[tabindex="-1"] > [class*="_product_size_"]')
+
+    static sizeAddModalNameInput = () => cy.get('div[tabindex="-1"] > [class*="_product_size_"] input[name="name"]')
+
+    static sizeAddModalCloseButton = () => cy.get('div[tabindex="-1"] > [class*="_product_size_"] [class*="right-0"]')
+
+    static sizeAddModalSaveButton = () => cy.get('div[tabindex="-1"] > [class*="_product_size_"] button[type="submit"]')
+
+    static sizeTbody = () => cy.get('[class*="_tbody_"]')
+
+    static sizeTbodyItems = () => cy.get('[class*="_tbody_"] tr')
+
+    static sizeTbodyItem = (index: number) => cy.get('[class*="_tbody_"] tr').eq(index)
+
+    static sizeTbodyEditButtons = () => cy.get('td:nth-child(3) button')
+
+    static sizeTbodyEditButton = (index: number) => cy.get('tbody tr td:nth-child(3) button').eq(index)
+
+    static sizeTbodyDeleteButtons = () => cy.get(' td:nth-child(4) button')
+
+    static sizeTbodyDeleteButton = (index: number) => cy.get('tbody tr td:nth-child(4) button').eq(index)
+
+    static sizeEditModal = () => cy.get('[class*="_product_size_"]').contains('h4', 'Edit')
+
+    static sizeEditModalNameInput = () => cy.get('[class*="_product_size_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_size_"]')
+        .find('input[name="name"]')
+
+    static sizeEditModalCloseButton = () => cy.get('[class*="_product_size_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_size_"]')
+        .find('[class*="right-0"]')
+
+    static sizeEditModalSaveButton = () => cy.get('[class*="_product_size_"]')
+        .contains('h4', 'Edit')
+        .parents('[class*="_product_size_"]')
+        .find('button[type="submit"]')
+
+    static sizeDeleteModal = () => cy.get('[class*="_delete_notification"]')
+
+    static sizeDeleteModalDeleteButton = () => cy.get('[class*="_delete_notification"] button[class*="shadow-gray-900/10"]')
+
+    static sizeDeleteModalCancelButton = () => cy.get('[class*="_delete_notification"] button + button')
+
+    static sizeSuccessAddToast = () => cy.get('#successAdd')
+
+    static sizeSuccessEditToast = () => cy.get('#successEdit')
+
+    static sizeSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static sizeInvalidDeleteToast = () => cy.get('#invalidSizeDelete')
+
+    static sizeInvalidEditToast = () => cy.get('#already')
+
+    static sizeExistSizeToast = () => cy.get('#existSize')
+
+    static sizeValidationErrorMessage = () => cy.get('[class*=_error_]')
 }

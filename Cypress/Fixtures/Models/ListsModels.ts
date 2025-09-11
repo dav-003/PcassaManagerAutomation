@@ -44,6 +44,13 @@ export enum productColorTheadSequence {
     Delete = 4
 }
 
+export enum productSizeTheadSequence {
+    ID = 0,
+    Name = 1,
+    Edit = 2,
+    Delete = 3
+}
+
 export interface unitOfMeasurementNameField {
     name: string;
 }
@@ -64,4 +71,9 @@ export interface cashRegisterTypesAddFields {
     name?: string;
     bankAccount?: string;
     description?: string;
+}
+
+export interface productSizeNameField {
+    groupName: string;
+    name: string;
 }

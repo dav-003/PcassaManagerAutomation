@@ -260,6 +260,10 @@ export class ProductsSelectors {
 
     static productEditSidebarColorOptions = () => cy.get('[id^="react-select-"][id*="-option-"]')
 
+    static productEditSidebarColorOption = (index: number) => cy.get(`[id^="react-select-"][id*="-option-"]`).eq(index)
+
+    static productEditSidebarSelectedColor = () => cy.get('[class*="_edit_product_item_"] [class*="select__single-value"] div[style]')
+
     static productEditSidebarColorDeleteButton = () => cy.get('[class*="_edit_product_item_"] :nth-child(8) > :nth-child(2) > .react-select > .select__control > .select__indicators > .select__clear-indicator')
 
     static productEditSidebarSettingsButton = () => cy.get('[class*="_edit_product_item_"] .gap-1\\.5 > :nth-child(1) > .relative')

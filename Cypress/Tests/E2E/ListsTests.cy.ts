@@ -738,7 +738,7 @@ describe('Lists', ()=> {
             })
         })
     })
-    context.only('Product Color Positive', () => {
+    context('Product Color Positive', () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -794,4 +794,40 @@ describe('Lists', ()=> {
             ListsSelectors.productColorSuccessDeleteToast().should('be.visible')
         })
     })
+    context('Product Color Negative', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should check used color delete', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyRow(0).rightclick()
+            ProductsSelectors.productRightClickModal().should('be.visible')
+            ProductsSelectors.productRightClickModalEditButton().click()
+            ProductsSelectors.editProductSidebarModal().should('be.visible')
+            ProductsSelectors.productEditSidebarColorSelect().click()
+            ProductsSelectors.productEditSidebarColorOption(1).click()
+            ProductsSelectors.productEditSidebarSelectedColor().invoke('css', 'background-color').then((color) => {
+                ProductsSelectors.productEditSidebarSaveButton().click()
+                ProductsSelectors.productEditSuccessToastify().should('be.visible').click()
+                ProductsSelectors.editProductSidebarModal().should('not.be.visible')
+                HomePageSelectors.sidebarListsButton().click()
+                HomePageSelectors.sidebarListsProductColorButton().click()
+                ListsSelectors.productColorTbodyColor(0).should('have.css', 'background-color', color)
+                ListsSelectors.productColorDeleteButtons().first().click()
+                ListsSelectors.productColorDeleteModal().should('be.visible')
+                ListsSelectors.productColorDeleteModalDeleteButton().click()
+                ListsSelectors.productColorDeleteModal().should('not.be.visible')
+                ListsSelectors.productColorInvalidDeleteToast().should('be.visible')
+            })
+        })
+    })
+
 })
