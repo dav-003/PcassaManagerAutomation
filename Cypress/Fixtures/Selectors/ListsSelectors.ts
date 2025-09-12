@@ -439,6 +439,8 @@ export class ListsSelectors {
 
     static sizeGroupEditButton = (index: number) => cy.get('#edit-button').eq(index)
 
+    static sizeGroupEditInput = () => cy.get('.edit-input')
+
     static sizeGroupDeleteButtons = () => cy.get('[class*="delete-block"] button')
 
     static sizeGroupDeleteButton = (index: number) => cy.get('[class*="delete-block"] button').eq(index)

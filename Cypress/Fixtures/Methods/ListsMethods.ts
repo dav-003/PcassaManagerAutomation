@@ -2,7 +2,7 @@ import {ListsSelectors} from "../Selectors/ListsSelectors";
 import {
     cashRegisterTypesAddFields,
     CategoryTypesTheadSequence,
-    listOfWarehousesTheadSequence,
+    listOfWarehousesTheadSequence, productSizeFields,
     unitOfMeasurementTheadSequence
 } from "../Models/ListsModels";
 import {ListsGenerators} from "../Generators/ListsGenerators";
@@ -211,5 +211,36 @@ export class ListsMethods {
             cy.wrap($el).click(x, y)
         })
     }
-
+    static sizeGroupAdd = (groupName: Pick<productSizeFields, "groupName">) => {
+        if(groupName.groupName) ListsSelectors.sizeGroupAddButton().click().then(() => {
+            ListsSelectors.sizeGroupAddField().should("be.visible").type(groupName.groupName as string, { parseSpecialCharSequences: false }).type("{enter}")
+        })
+        ListsSelectors.sizeSuccessAddToast().should('be.visible')
+        ListsSelectors.sizeGroupListItems().should('contain', groupName.groupName)
+        ListsSelectors.sizeGroupCloseButton().click()
+        ListsSelectors.sizeGroupAddField().should("not.be.visible")
+    }
+    static sizeGroupEdit = (
+        editGroup: Cypress.Chainable<JQuery<HTMLElement>>,
+        newName: Pick<productSizeFields, "groupName">
+    ) => {
+        editGroup.trigger("mouseover").then(($group) => {
+            cy.wrap($group)
+                .find('button#edit-button')
+                .click({ force: true })
+            ListsSelectors.sizeGroupEditInput()
+                .should("be.visible")
+                .clear()
+                .type(newName.groupName, { parseSpecialCharSequences: false })
+                .type("{enter}");
+        })
+    }
+    static sizeGroupDelete = (group: Cypress.Chainable<JQuery<HTMLElement>>) => {
+        group.trigger("mouseover").then(($group) => {
+            cy.wrap($group).find('[class*="delete-block"] button').click({ force: true })
+            ListsSelectors.sizeDeleteModal().should("be.visible");
+            ListsSelectors.sizeDeleteModalDeleteButton().click();
+            cy.wrap($group).should("not.exist");
+        })
+    }
 }

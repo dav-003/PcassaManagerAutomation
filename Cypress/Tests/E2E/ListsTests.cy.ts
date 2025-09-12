@@ -829,5 +829,32 @@ describe('Lists', ()=> {
             })
         })
     })
-
+    context.only('Product Size Positive', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add size group', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupAdd(ListsGenerators.sizeGroupNameField())
+        })
+        it('Should edit added size group', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItems().last(), ListsGenerators.sizeGroupNameField())
+        })
+        it('Should delete added size group', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupDelete(ListsSelectors.sizeGroupListItems().last())
+        })
+    })
 })

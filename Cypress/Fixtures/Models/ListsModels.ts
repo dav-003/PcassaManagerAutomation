@@ -73,7 +73,7 @@ export interface cashRegisterTypesAddFields {
     description?: string;
 }
 
-export interface productSizeNameField {
+export interface productSizeFields {
     groupName: string;
     name: string;
 }
