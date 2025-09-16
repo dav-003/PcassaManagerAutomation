@@ -2,7 +2,7 @@ import {ListsSelectors} from "../Selectors/ListsSelectors";
 import {
     cashRegisterTypesAddFields,
     CategoryTypesTheadSequence,
-    listOfWarehousesTheadSequence, productSizeFields,
+    listOfWarehousesTheadSequence, productSizeFields, productSizeTheadSequence,
     unitOfMeasurementTheadSequence
 } from "../Models/ListsModels";
 import {ListsGenerators} from "../Generators/ListsGenerators";
@@ -242,5 +242,28 @@ export class ListsMethods {
             ListsSelectors.sizeDeleteModalDeleteButton().click();
             cy.wrap($group).should("not.exist");
         })
+    }
+    static sizeAdd = (sizeName: Pick<productSizeFields, "name">) => {
+        ListsSelectors.sizeGroupListItem(0).click()
+        if(sizeName.name) ListsSelectors.sizeAddButton().click().then(() => {
+            ListsSelectors.sizeAddModal().should("be.visible")
+            ListsSelectors.sizeAddModalNameInput().type(sizeName.name as string, { parseSpecialCharSequences: false })
+            ListsSelectors.sizeAddModalSaveButton().click()
+        })
+        ListsSelectors.sizeSuccessAddToast().should("be.visible").click()
+        ListsSelectors.sizeAddModal().should("not.be.visible")
+        ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).should("contain", sizeName.name)
+    }
+    static sizeEdit = (editSize: Cypress.Chainable<JQuery<HTMLElement>>, newName: Pick<productSizeFields, "name">) => {
+        (editSize as any)
+            .within(() => {
+                ListsSelectors.sizeTbodyEditButtons().click()
+            })
+        ListsSelectors.sizeEditModal().should("be.visible")
+        ListsSelectors.sizeEditModalNameInput().should("be.visible").clear().type(newName.name as string, { parseSpecialCharSequences: false })
+        ListsSelectors.sizeEditModalSaveButton().click()
+        ListsSelectors.sizeSuccessEditToast().should("be.visible").click()
+        ListsSelectors.sizeEditModal().should("not.exist")
+        ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).should("contain", newName.name)
     }
 }

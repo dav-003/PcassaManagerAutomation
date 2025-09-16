@@ -9,7 +9,7 @@ import {ActsSelectors} from "../../Fixtures/Selectors/ActsSelectors";
 import {
     cashRegisterTypesTheadSequence,
     CategoryTypesTheadSequence,
-    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence, productColorTheadSequence,
+    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence, productColorTheadSequence, productSizeTheadSequence,
     unitOfMeasurementTheadSequence
 } from "../../Fixtures/Models/ListsModels";
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
@@ -829,7 +829,7 @@ describe('Lists', ()=> {
             })
         })
     })
-    context.only('Product Size Positive', () => {
+    context('Product Size Positive', () => {
         beforeEach(() => {
             cy.session('user4004', () => {
                 cy.visit('/')
@@ -855,6 +855,29 @@ describe('Lists', ()=> {
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsSizeButton().click()
             ListsMethods.sizeGroupDelete(ListsSelectors.sizeGroupListItems().last())
+        })
+        it('Should add size in group', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeAdd(ListsGenerators.sizeNameField())
+        })
+        it('Should edit added size', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(),ListsGenerators.sizeNameField())
+        })
+        it('Should delete added & edited size', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsSelectors.sizeGroupListItem(0).click()
+            ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).invoke("text").then((name) => {
+                ListsSelectors.sizeTbodyDeleteButtons().last().click()
+                ListsSelectors.sizeDeleteModal().should('be.visible')
+                ListsSelectors.sizeDeleteModalDeleteButton().click()
+                ListsSelectors.sizeDeleteModal().should('not.be.visible')
+                ListsSelectors.sizeSuccessDeleteToast().should('be.visible')
+                ListsSelectors.sizeTbodyItems().should('not.contain', name.trim())
+            })
         })
     })
 })

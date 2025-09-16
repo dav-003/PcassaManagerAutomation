@@ -473,20 +473,20 @@ export class ListsSelectors {
 
     static sizeEditModal = () => cy.get('[class*="_product_size_"]').contains('h4', 'Edit')
 
-    static sizeEditModalNameInput = () => cy.get('[class*="_product_size_"]')
-        .contains('h4', 'Edit')
-        .parents('[class*="_product_size_"]')
-        .find('input[name="name"]')
+    static sizeEditModalNameInput = () =>
+        cy.contains('h4', 'Edit')
+            .closest('[class*="_product_size_"]')
+            .find('input[name="name"]:visible')
 
-    static sizeEditModalCloseButton = () => cy.get('[class*="_product_size_"]')
-        .contains('h4', 'Edit')
-        .parents('[class*="_product_size_"]')
-        .find('[class*="right-0"]')
+    static sizeEditModalCloseButton = () =>
+        cy.contains('h4', 'Edit')
+            .closest('[class*="_product_size_"]')
+            .find('[class*="right-0"]:visible')
 
-    static sizeEditModalSaveButton = () => cy.get('[class*="_product_size_"]')
-        .contains('h4', 'Edit')
-        .parents('[class*="_product_size_"]')
-        .find('button[type="submit"]')
+    static sizeEditModalSaveButton = () =>
+        cy.contains('h4', 'Edit')
+            .closest('[class*="_product_size_"]')
+            .find('button[type="submit"]:visible')
 
     static sizeDeleteModal = () => cy.get('[class*="_delete_notification"]')
 
