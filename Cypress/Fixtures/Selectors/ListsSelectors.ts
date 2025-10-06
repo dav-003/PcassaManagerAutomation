@@ -500,7 +500,7 @@ export class ListsSelectors {
 
     static sizeSuccessDeleteToast = () => cy.get('#successDelete')
 
-    static sizeInvalidDeleteToast = () => cy.get('#invalidSizeDelete')
+    static sizeInvalidDeleteToast = () => cy.get('#invalidProductSizeDelete')
 
     static sizeInvalidEditToast = () => cy.get('#already')
 

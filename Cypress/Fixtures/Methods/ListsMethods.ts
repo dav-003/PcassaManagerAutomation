@@ -211,15 +211,35 @@ export class ListsMethods {
             cy.wrap($el).click(x, y)
         })
     }
-    static sizeGroupAdd = (groupName: Pick<productSizeFields, "groupName">) => {
-        if(groupName.groupName) ListsSelectors.sizeGroupAddButton().click().then(() => {
-            ListsSelectors.sizeGroupAddField().should("be.visible").type(groupName.groupName as string, { parseSpecialCharSequences: false }).type("{enter}")
-        })
-        ListsSelectors.sizeSuccessAddToast().should('be.visible')
-        ListsSelectors.sizeGroupListItems().should('contain', groupName.groupName)
+    static sizeGroupAdd = ({
+                               groupName,
+                               expectSuccess,
+                           }: {
+        groupName?: string
+        expectSuccess?: boolean
+    }) => {
+        ListsSelectors.sizeGroupAddButton().click()
+        if (groupName) {
+            ListsSelectors.sizeGroupAddField()
+                .should("be.visible")
+                .type(groupName, { parseSpecialCharSequences: false })
+                .type("{enter}")
+        } else {
+            ListsSelectors.sizeGroupAddField()
+                .should("be.visible")
+                .type("{enter}")
+        }
+        const successExpected = expectSuccess ?? !!groupName
+        if (successExpected) {
+            ListsSelectors.sizeSuccessAddToast().should("be.visible")
+            ListsSelectors.sizeGroupListItems().should("contain", groupName)
+        } else {
+            ListsSelectors.sizeValidationErrorMessage().should("be.visible")
+        }
         ListsSelectors.sizeGroupCloseButton().click()
         ListsSelectors.sizeGroupAddField().should("not.be.visible")
     }
+
     static sizeGroupEdit = (
         editGroup: Cypress.Chainable<JQuery<HTMLElement>>,
         newName: Pick<productSizeFields, "groupName">

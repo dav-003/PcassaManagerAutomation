@@ -20,6 +20,7 @@ import {ActsMethods} from "../../Fixtures/Methods/ActsMethods";
 import {CashOrderSelectors} from "../../Fixtures/Selectors/CashOrderSelectors";
 import {CashOrderMethods} from "../../Fixtures/Methods/CashOrderMethods";
 import {CashOrderListTheadSequence} from "../../Fixtures/Models/CashOrderModels";
+import {ProductsMethods} from "../../Fixtures/Methods/ProductsMethods";
 
 describe('Lists', ()=> {
 
@@ -878,6 +879,63 @@ describe('Lists', ()=> {
                 ListsSelectors.sizeSuccessDeleteToast().should('be.visible')
                 ListsSelectors.sizeTbodyItems().should('not.contain', name.trim())
             })
+        })
+    })
+    context('Product Size Negative', () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should check used size delete & edit', () => {
+            HomePageSelectors.sidebarProductsButton().click()
+            ProductsSelectors.productsTbodyRow(0).find('td').eq(ProductTheadSequence.Size).invoke("text").then((size) => {
+                HomePageSelectors.sidebarListsButton().click()
+                HomePageSelectors.sidebarListsSizeButton().click()
+                ListsSelectors.sizeTbodyItems().contains('td', size).parents('tr').within(() => {
+                    ListsSelectors.sizeTbodyDeleteButtons().click()
+                })
+                ListsSelectors.sizeDeleteModal().should('be.visible')
+                ListsSelectors.sizeDeleteModalDeleteButton().click()
+                ListsSelectors.sizeDeleteModal().should('not.be.visible')
+                ListsSelectors.sizeInvalidDeleteToast().should('be.visible')
+                ListsSelectors.sizeTbodyItems().contains('td', size).parents('tr').within(() => {
+                    ListsSelectors.sizeTbodyEditButtons().click()
+                })
+                ListsSelectors.sizeEditModal().should('be.visible')
+                ListsSelectors.sizeEditModalNameInput().clear().type(size.trim() + '123')
+                ListsSelectors.sizeEditModalSaveButton().click()
+                ListsSelectors.sizeSuccessEditToast().should('be.visible')
+                ListsSelectors.sizeTbodyItems().should(($tbody) => {
+                    expect($tbody.text()).to.include(size.trim() + '123')
+                })
+                ListsSelectors.sizeTbodyItems().contains('td', size + '123').parents('tr').within(() => {
+                    ListsSelectors.sizeTbodyEditButtons().click()
+                })
+                ListsSelectors.sizeEditModal().should('be.visible')
+                ListsSelectors.sizeEditModalNameInput().clear().type(size.trim())
+                ListsSelectors.sizeEditModalSaveButton().click()
+                ListsSelectors.sizeSuccessEditToast().should('be.visible')
+                ListsSelectors.sizeTbodyItems().should(($tbody) => {
+                    expect($tbody.text()).to.include(size.trim())
+                })
+            })
+        })
+        it('Should check size group empty add', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupAdd({})
+        })
+        it('Should check size group add with big string', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupAdd({groupName: ListsGenerators.sizeGroupNameField().groupName.repeat(10), expectSuccess: false})
         })
     })
 })
