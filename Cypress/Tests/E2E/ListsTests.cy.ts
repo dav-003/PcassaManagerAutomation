@@ -931,11 +931,41 @@ describe('Lists', ()=> {
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsSizeButton().click()
             ListsMethods.sizeGroupAdd({})
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
         })
         it('Should check size group add with big string', () => {
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsSizeButton().click()
             ListsMethods.sizeGroupAdd({groupName: ListsGenerators.sizeGroupNameField().groupName.repeat(10), expectSuccess: false})
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
+        })
+        it('Should check size group add with exist group name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsSelectors.sizeGroupListItemName(0).invoke('text').then((groupName) => {
+                ListsMethods.sizeGroupAdd({groupName: groupName, expectSuccess: false})
+                ListsSelectors.sizeExistSizeToast().should('be.visible')
+            })
+        })
+        it('Should check group edit with empty name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItem(0),{groupName: "  "})
+            ListsSelectors.sizeErrorToast().should('be.visible')
+        })
+        it('Should check group edit with long name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItem(0),{groupName: "1231~^@~@^(__~_(+({}{L::,mz^&#x351sa1234)"})
+            ListsSelectors.sizeErrorToast().should('be.visible')
+        })
+        it.only('Should check size edit with exist name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsSelectors.sizeGroupListItemNames().last().invoke("text").then((name) => {
+                ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItem(0),{groupName: name})
+            })
+            ListsSelectors.sizeGroupExistErrorToast().should('be.visible')
         })
     })
 })

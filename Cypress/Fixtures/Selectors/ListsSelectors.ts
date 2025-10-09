@@ -433,6 +433,8 @@ export class ListsSelectors {
 
     static sizeGroupListItem = (index: number) => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="_item_"]').eq(index)
 
+    static sizeGroupListItemName = (index: number) => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="group_name_"]').eq(index)
+
     static sizeGroupListItemNames = () => cy.get('[class*="product_size"] [class*="_groups_list"] [class*="group_name_"]')
 
     static sizeGroupEditButtons = () => cy.get('#edit-button')
@@ -504,7 +506,11 @@ export class ListsSelectors {
 
     static sizeInvalidEditToast = () => cy.get('#already')
 
-    static sizeExistSizeToast = () => cy.get('#existSize')
+    static sizeExistSizeToast = () => cy.get('#existProductSize')
 
     static sizeValidationErrorMessage = () => cy.get('[class*=_error_]')
+
+    static sizeErrorToast = () => cy.get('#error')
+
+    static sizeGroupExistErrorToast = () => cy.get('#\\31 ')
 }

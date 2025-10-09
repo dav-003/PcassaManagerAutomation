@@ -233,8 +233,6 @@ export class ListsMethods {
         if (successExpected) {
             ListsSelectors.sizeSuccessAddToast().should("be.visible")
             ListsSelectors.sizeGroupListItems().should("contain", groupName)
-        } else {
-            ListsSelectors.sizeValidationErrorMessage().should("be.visible")
         }
         ListsSelectors.sizeGroupCloseButton().click()
         ListsSelectors.sizeGroupAddField().should("not.be.visible")
@@ -244,17 +242,16 @@ export class ListsMethods {
         editGroup: Cypress.Chainable<JQuery<HTMLElement>>,
         newName: Pick<productSizeFields, "groupName">
     ) => {
-        editGroup.trigger("mouseover").then(($group) => {
-            cy.wrap($group)
-                .find('button#edit-button')
-                .click({ force: true })
+        editGroup.trigger('mouseover').then(($editGroup) => {
+            cy.wrap($editGroup).find('button#edit-button').click({ force: true })
             ListsSelectors.sizeGroupEditInput()
-                .should("be.visible")
+                .should('be.visible')
                 .clear()
                 .type(newName.groupName, { parseSpecialCharSequences: false })
-                .type("{enter}");
+                .type('{enter}')
         })
     }
+
     static sizeGroupDelete = (group: Cypress.Chainable<JQuery<HTMLElement>>) => {
         group.trigger("mouseover").then(($group) => {
             cy.wrap($group).find('[class*="delete-block"] button').click({ force: true })
