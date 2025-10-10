@@ -260,27 +260,65 @@ export class ListsMethods {
             cy.wrap($group).should("not.exist");
         })
     }
-    static sizeAdd = (sizeName: Pick<productSizeFields, "name">) => {
+    static sizeAdd = ({
+                          name,
+                          expectSuccess,
+                      }: {
+        name?: string
+        expectSuccess?: boolean
+    }) => {
         ListsSelectors.sizeGroupListItem(0).click()
-        if(sizeName.name) ListsSelectors.sizeAddButton().click().then(() => {
-            ListsSelectors.sizeAddModal().should("be.visible")
-            ListsSelectors.sizeAddModalNameInput().type(sizeName.name as string, { parseSpecialCharSequences: false })
-            ListsSelectors.sizeAddModalSaveButton().click()
-        })
-        ListsSelectors.sizeSuccessAddToast().should("be.visible").click()
-        ListsSelectors.sizeAddModal().should("not.be.visible")
-        ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).should("contain", sizeName.name)
+        ListsSelectors.sizeAddButton().click()
+        if (name) {
+            ListsSelectors.sizeAddModalNameInput()
+                .should("be.visible")
+                .type(name, { parseSpecialCharSequences: false })
+                .type("{enter}")
+        } else {
+            ListsSelectors.sizeAddModalNameInput()
+                .should("be.visible")
+                .type("{enter}")
+        }
+        const successExpected = expectSuccess ?? !!name
+        if (successExpected) {
+            ListsSelectors.sizeSuccessAddToast().should("be.visible")
+            ListsSelectors.sizeTbodyItems()
+                .last()
+                .find("td")
+                .eq(productSizeTheadSequence.Name)
+                .should("contain", name)
+        }
     }
-    static sizeEdit = (editSize: Cypress.Chainable<JQuery<HTMLElement>>, newName: Pick<productSizeFields, "name">) => {
-        (editSize as any)
-            .within(() => {
-                ListsSelectors.sizeTbodyEditButtons().click()
-            })
-        ListsSelectors.sizeEditModal().should("be.visible")
-        ListsSelectors.sizeEditModalNameInput().should("be.visible").clear().type(newName.name as string, { parseSpecialCharSequences: false })
-        ListsSelectors.sizeEditModalSaveButton().click()
-        ListsSelectors.sizeSuccessEditToast().should("be.visible").click()
-        ListsSelectors.sizeEditModal().should("not.exist")
-        ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).should("contain", newName.name)
+    static sizeEdit = (
+        editSize: Cypress.Chainable<JQuery<HTMLElement>>,
+        name?: string,
+        expectSuccess?: boolean
+    ) => {
+        editSize.trigger("mouseover").then(($editSize) => {
+            cy.wrap($editSize)
+                .find("td:nth-child(3) button")
+                .click({ force: true })
+        })
+        if (name) {
+            ListsSelectors.sizeEditModalNameInput()
+                .should("be.visible")
+                .clear()
+                .type(name, { parseSpecialCharSequences: false })
+                .type("{enter}")
+        } else {
+            ListsSelectors.sizeEditModalNameInput()
+                .should("be.visible")
+                .clear()
+                .type("{enter}")
+        }
+        const successExpected = expectSuccess ?? !!name
+        if (successExpected) {
+            ListsSelectors.sizeSuccessEditToast().should("be.visible")
+            ListsSelectors.sizeTbodyItems()
+                .last()
+                .find("td")
+                .eq(productSizeTheadSequence.Name)
+                .should("contain", name)
+        }
     }
 }

@@ -865,7 +865,7 @@ describe('Lists', ()=> {
         it('Should edit added size', () => {
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsSizeButton().click()
-            ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(),ListsGenerators.sizeNameField())
+            ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(),ListsGenerators.sizeNameField().name, true)
         })
         it('Should delete added & edited size', () => {
             HomePageSelectors.sidebarListsButton().click()
@@ -959,13 +959,53 @@ describe('Lists', ()=> {
             ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItem(0),{groupName: "1231~^@~@^(__~_(+({}{L::,mz^&#x351sa1234)"})
             ListsSelectors.sizeErrorToast().should('be.visible')
         })
-        it.only('Should check size edit with exist name', () => {
+        it('Should check group edit with exist name', () => {
             HomePageSelectors.sidebarListsButton().click()
             HomePageSelectors.sidebarListsSizeButton().click()
             ListsSelectors.sizeGroupListItemNames().last().invoke("text").then((name) => {
                 ListsMethods.sizeGroupEdit(ListsSelectors.sizeGroupListItem(0),{groupName: name})
             })
             ListsSelectors.sizeGroupExistErrorToast().should('be.visible')
+        })
+        it('Should check size add with empty name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeAdd({name: "  ", expectSuccess: false})
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
+        })
+        it('Should check size add with long name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeAdd({name: "1231~^@~@^(__~_(+({}{L::,mz^&#x351sa1234)", expectSuccess: false})
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
+        })
+        it('Should check size add with exist name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).invoke("text").then((name) => {
+                ListsMethods.sizeAdd({name: name, expectSuccess: false})
+                ListsSelectors.sizeExistSizeToast().should('be.visible')
+            })
+        })
+        it('Should check size edit with empty name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(), "   ", false)
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
+        })
+        it('Should check size edit with long name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(), "1231~^@~@^(__~_(+({}{L::,mz^&#x351sa1234)", false)
+            ListsSelectors.sizeValidationErrorMessage().should('be.visible')
+        })
+        it('Should check size edit with exist name', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsSizeButton().click()
+            ListsSelectors.sizeTbodyItems().last().find('td').eq(productSizeTheadSequence.Name).invoke("text").then((name) => {
+                ListsMethods.sizeEdit(ListsSelectors.sizeTbodyItems().last(), name, false)
+                ListsSelectors.sizeExistSizeToast().should('be.visible')
+            })
         })
     })
 })
