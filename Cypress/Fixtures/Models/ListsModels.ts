@@ -51,6 +51,31 @@ export enum productSizeTheadSequence {
     Delete = 3
 }
 
+export enum productCurrenciesTheadSequence {
+    ID = 0,
+    Name = 1,
+    ShortName = 2,
+    Rounding = 3,
+    CurrencyType = 4,
+    Main = 5,
+    Enabled = 6,
+    Edit = 7,
+    Delete = 8
+}
+
+export enum productCurrenciesCurrencyTypes {
+    Cash = 0,
+    CashLess = 1,
+    Duty = 2
+}
+
+export enum productCurrenciesPaymentTypes {
+    NoFiscal = 0,
+    Fiscal = 1,
+    Bonus = 2,
+    Deposit = 3
+}
+
 export interface unitOfMeasurementNameField {
     name: string;
 }
@@ -76,4 +101,10 @@ export interface cashRegisterTypesAddFields {
 export interface productSizeFields {
     groupName: string;
     name: string;
+}
+
+export interface productCurrenciesAddFields {
+    name?: string;
+    shortName?: string;
+    rounding?: number;
 }

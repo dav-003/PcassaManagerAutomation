@@ -513,4 +513,136 @@ export class ListsSelectors {
     static sizeErrorToast = () => cy.get('#error')
 
     static sizeGroupExistErrorToast = () => cy.get('#\\31 ')
+
+    static currenciesHeaderText = () => cy.get('[class*="content_title"] [class*="_title"]')
+
+    static currenciesTablist = () => cy.get('ul[role="tablist"]')
+
+    static currenciesTablistOptionCash = () => cy.get('ul[role="tablist"] li').eq(0)
+
+    static currenciesTablistOptionCashless = () => cy.get('ul[role="tablist"] li').eq(1)
+
+    static currenciesTablistOptionDuty = () => cy.get('ul[role="tablist"] li').eq(2)
+
+    static currenciesAddButton = () => cy.get('div[class="flex gap-[20px]"] + button')
+
+    static currenciesTbody = () => cy.get('[class*="_tbody_"]')
+
+    static currenciesTbodyItems = () => cy.get('[class*="_tbody_"] tr')
+
+    static currenciesTbodyItem = (index: number) => cy.get('[class*="_tbody_"] tr').eq(index)
+
+    static currenciesTbodyItemCurrencyName = (index: number) => cy.get('[class*="_tbody_"] td:nth-child(2)').eq(index)
+
+    static currenciesTbodyItemCurrencyNames = () => cy.get('[class*="_tbody_"] td:nth-child(2)')
+
+    static currenciesTbodyEditButtons = () => cy.get('[class*="_tbody_"] td:nth-child(8) button')
+
+    static currenciesTbodyEditButton = (index: number) => cy.get('[class*="_tbody_"] td:nth-child(8) button').eq(index)
+
+    static currenciesTbodyDeleteButtons = () => cy.get('[class*="_tbody_"] td:nth-child(9) button')
+
+    static currenciesTbodyDeleteButton = (index: number) => cy.get('[class*="_tbody_"] td:nth-child(9) button').eq(index)
+
+    static currenciesAddModal = () => cy.get('[class*="_currency_"]')
+
+    static currenciesAddModalNameInput = () => cy.get('[class*="_currency_"] input[name="name"]')
+
+    static currenciesAddModalShortNameInput = () => cy.get('[class*="_currency_"] input[name="shortName"]')
+
+    static currenciesAddModalRoundingInput = () => cy.get('[class*="_currency_"] input[name="roundingRules"]')
+
+    static currenciesAddModalCurrencyTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"]').eq(0)
+
+    static currenciesAddModalCurrencyTypeSelectOption = (index: number) => cy.get('[class*="_currency_"] [class*="react-select"]').eq(0).find('option').eq(index)
+
+    static currenciesAddModalPaymentTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"]').eq(1)
+
+    static currenciesAddModalPaymentTypeSelectOption = (index: number) => cy.get('[class*="_currency_"] [class*="react-select"]').eq(1).find('option').eq(index)
+
+    static currenciesAddModalMainCheckbox = () => cy.get('[class*="_currency_"] input[type="checkbox"]').eq(0)
+
+    static currenciesAddModalEnabledCheckbox = () => cy.get('[class*="_currency_"] input[type="checkbox"]').eq(1)
+
+    static currenciesAddModalSaveButton = () => cy.get('[class*="_currency_"] button[type="submit"]')
+
+    static currenciesAddModalCloseButton = () => cy.get('[class*="_currency_"] [class*="right-0"]')
+
+    static currenciesEditModal = () => cy.get('[class*="_currency_"]').filter(':contains("Edit")')
+
+    static currenciesEditModalNameInput = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[name="name"]')
+
+    static currenciesEditModalShortNameInput = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[name="shortName"]')
+
+    static currenciesEditModalRoundingInput = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[name="roundingRules"]')
+
+    static currenciesEditModalCurrencyTypeSelect = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('[class*="react-select"]')
+        .eq(0)
+
+    static currenciesEditModalCurrencyTypeSelectOption = (index: number) => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('[class*="react-select"]')
+        .eq(0)
+        .find('option')
+        .eq(index)
+
+    static currenciesEditModalPaymentTypeSelect = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('[class*="react-select"]')
+        .eq(1)
+
+    static currenciesEditModalPaymentTypeSelectOption = (index: number) => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('[class*="react-select"]')
+        .eq(1)
+        .find('option')
+        .eq(index)
+
+    static currenciesEditModalMainCheckbox = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[type="checkbox"]')
+        .eq(0)
+
+    static currenciesEditModalEnabledCheckbox = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[type="checkbox"]')
+        .eq(1)
+
+    static currenciesEditModalSaveButton = () => cy.get('[class*="_currency_"] button[type="submit"]:contains("Edit")')
+
+    static currenciesEditModalCloseButton = () => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('[class*="right-0"]')
+
+    static currenciesDeleteModal = () => cy.get('[class*="_delete_notification"]')
+
+    static currenciesDeleteModalDeleteButton = () => cy.get('[class*="_delete_notification"] button[class*="shadow-gray-900/10"]')
+
+    static currenciesDeleteModalCancelButton = () => cy.get('[class*="_delete_notification"] button + button')
+
+    static currenciesSuccessAddToast = () => cy.get('#successAdd')
+
+    static currenciesSuccessEditToast = () => cy.get('#successEdit')
+
+    static currenciesSuccessDeleteToast = () => cy.get('#successDelete')
+
+    static currenciesInvalidDeleteToast = () => cy.get('#invalidProductCurrencyDelete')
+
+    static currenciesInvalidEditToast = () => cy.get('#already')
+
+    static currenciesExistCurrencyToast = () => cy.get('#existProductCurrency')
+
+    static currenciesValidationErrorMessage = () => cy.get('[class*=_error_]')
+
+    static currenciesErrorToast = () => cy.get('#error')
+
+    static currenciesGroupExistErrorToast = () => cy.get('#\\31 ')
 }
