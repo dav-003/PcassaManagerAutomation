@@ -3,7 +3,7 @@ import {
     cashRegisterTypesAddFields,
     categoryTypeNameField,
     listOfPaymentsNameField,
-    listOfWarehousesNameField, productSizeFields,
+    listOfWarehousesNameField, productCurrenciesAddFields, productSizeFields,
     unitOfMeasurementNameField
 } from "../Models/ListsModels";
 const chance = new Chance();
@@ -55,6 +55,21 @@ export class ListsGenerators {
     static sizeNameField = (): Pick<productSizeFields, "name"> => {
         return {
             name: chance.string({length: chance.integer({ min: 1, max: 20 }), pool: poolWithoutExclamation })
+        }
+    }
+    static currencyNameField = (): Pick<productCurrenciesAddFields, "name"> => {
+        return {
+            name: chance.string({length: chance.integer({ min: 1, max: 20 }), pool: poolWithoutExclamation })
+        }
+    }
+    static currencyShortNameField = (): Pick<productCurrenciesAddFields, "shortName"> => {
+        return {
+            shortName: chance.string({length: chance.integer({ min: 1, max: 10 }), pool: poolWithoutExclamation })
+        }
+    }
+    static currencyRoundingField = (): Pick<productCurrenciesAddFields, "rounding"> => {
+        return {
+            rounding: chance.integer({ min: 1, max: 9999999999999 })
         }
     }
 }

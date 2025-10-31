@@ -9,7 +9,11 @@ import {ActsSelectors} from "../../Fixtures/Selectors/ActsSelectors";
 import {
     cashRegisterTypesTheadSequence,
     CategoryTypesTheadSequence,
-    listOfPaymentsTheadSequence, listOfWarehousesTheadSequence, productColorTheadSequence, productSizeTheadSequence,
+    listOfPaymentsTheadSequence,
+    listOfWarehousesTheadSequence,
+    productColorTheadSequence, productCurrenciesCheckboxes,
+    productCurrenciesCurrencyTypes, productCurrenciesPaymentTypes, productCurrenciesTheadSequence,
+    productSizeTheadSequence,
     unitOfMeasurementTheadSequence
 } from "../../Fixtures/Models/ListsModels";
 import {ProductsSelectors} from "../../Fixtures/Selectors/ProductsSelectors";
@@ -21,6 +25,8 @@ import {CashOrderSelectors} from "../../Fixtures/Selectors/CashOrderSelectors";
 import {CashOrderMethods} from "../../Fixtures/Methods/CashOrderMethods";
 import {CashOrderListTheadSequence} from "../../Fixtures/Models/CashOrderModels";
 import {ProductsMethods} from "../../Fixtures/Methods/ProductsMethods";
+import Chance from "chance";
+const chance = new Chance()
 
 describe('Lists', ()=> {
 
@@ -1007,5 +1013,68 @@ describe('Lists', ()=> {
                 ListsSelectors.sizeExistSizeToast().should('be.visible')
             })
         })
+    })
+    context("Currencies Positive", () => {
+        beforeEach(() => {
+            cy.session('user4004', () => {
+                cy.visit('/')
+                SignInMethods.SignIn(
+                    SignInGenerators.User4004.username,
+                    SignInGenerators.User4004.password
+                )
+            })
+            Cypress.on('uncaught:exception', (err) => {
+                if (err.message.includes('className.includes')) {
+                    return false
+                }
+            })
+            cy.visit('/')
+            HomePageMethods.changeLanguage(Languages.English)
+        })
+        it('Should add & delete currency', () => {
+            HomePageSelectors.sidebarListsButton().click()
+            HomePageSelectors.sidebarListsCurrenciesButton().click()
+            ListsMethods.currencyAdd({
+                data: {
+                    name: ListsGenerators.currencyNameField().name,
+                    shortName: ListsGenerators.currencyShortNameField().shortName,
+                    rounding: ListsGenerators.currencyRoundingField().rounding,
+                },
+                currencyType: chance.pickone(
+                    Object.values(productCurrenciesCurrencyTypes).filter(
+                        (v): v is productCurrenciesCurrencyTypes => typeof v === "number"
+                    )
+                ),
+                paymentType: chance.pickone(
+                    Object.values(productCurrenciesPaymentTypes).filter(
+                        (v): v is productCurrenciesPaymentTypes => typeof v === "number"
+                    )
+                ),
+                checkboxes: chance.pickone(
+                    Object.values(productCurrenciesCheckboxes).filter(
+                        (v): v is productCurrenciesCheckboxes => typeof v === "number"
+                    )
+                ),
+            }).then(({ currType, name }) => {
+                ListsSelectors.currenciesSuccessAddToast().should('be.visible')
+                ListsSelectors.currenciesTablistOptions()
+                    .contains(currType!.trim())
+                    .click()
+                ListsSelectors.currenciesTbodyItems()
+                    .last()
+                    .find('td')
+                    .eq(productCurrenciesTheadSequence.Name)
+                    .should('have.text', name)
+                ListsSelectors.currenciesTbodyDeleteButtons().last().click()
+                ListsSelectors.currenciesDeleteModal().should('be.visible')
+                ListsSelectors.currenciesDeleteModalDeleteButton().click()
+                ListsSelectors.currenciesDeleteModal().should('not.exist')
+                ListsSelectors.currenciesSuccessDeleteToast().should('be.visible')
+                ListsSelectors.currenciesTbodyItems()
+                    .filter(`:contains("${name}")`)
+                    .should('not.exist')
+            })
+        })
+        it.only("Should edit currency", () => {})
     })
 })

@@ -2,7 +2,11 @@ import {ListsSelectors} from "../Selectors/ListsSelectors";
 import {
     cashRegisterTypesAddFields,
     CategoryTypesTheadSequence,
-    listOfWarehousesTheadSequence, productSizeFields, productSizeTheadSequence,
+    listOfWarehousesTheadSequence,
+    productCurrenciesAddFields, productCurrenciesCheckboxes,
+    productCurrenciesCurrencyTypes, productCurrenciesPaymentTypes,
+    productSizeFields,
+    productSizeTheadSequence,
     unitOfMeasurementTheadSequence
 } from "../Models/ListsModels";
 import {ListsGenerators} from "../Generators/ListsGenerators";
@@ -320,5 +324,126 @@ export class ListsMethods {
                 .eq(productSizeTheadSequence.Name)
                 .should("contain", name)
         }
+    }
+    static currencyAdd = ({
+                              data,
+                              currencyType,
+                              paymentType,
+                              checkboxes,
+                          }: {
+        data: productCurrenciesAddFields
+        currencyType?: productCurrenciesCurrencyTypes
+        paymentType?: productCurrenciesPaymentTypes
+        checkboxes?: productCurrenciesCheckboxes
+    }) => {
+        const invokedObj: { currType?: string; payType?: string; name?: string } = {}
+        ListsSelectors.currenciesAddButton().should('be.visible').click()
+        ListsSelectors.currenciesAddModal().should('be.visible')
+        if (data.name) {
+            ListsSelectors.currenciesAddModalNameInput().clear().type(data.name)
+        }
+        if (data.shortName) {
+            ListsSelectors.currenciesAddModalShortNameInput().clear().type(data.shortName)
+        }
+        if (data.rounding) {
+            ListsSelectors.currenciesAddModalRoundingInput().type(String(data.rounding))
+        }
+        if (currencyType) {
+            ListsSelectors.currenciesAddModalCurrencyTypeSelect().click({ force: true })
+            ListsSelectors.currenciesAddModalCurrencyTypeSelectOptions().should('be.visible')
+            ListsSelectors.currenciesAddModalCurrencyTypeSelectOption(currencyType).click({ force: true })
+            ListsSelectors.currenciesAddModalCurrencyTypeSelectOptions().should('not.exist')
+        }
+        if (paymentType) {
+            ListsSelectors.currenciesAddModalPaymentTypeSelect().click({ force: true })
+            ListsSelectors.currenciesAddModalPaymentTypeSelectOptions().should('be.visible')
+            ListsSelectors.currenciesAddModalPaymentTypeSelectOption(paymentType).click({ force: true })
+            ListsSelectors.currenciesAddModalPaymentTypeSelectOptions().should('not.exist')
+        }
+        if (checkboxes) {
+            ListsSelectors.currenciesAddModalCheckboxes(checkboxes).check({ force: true })
+        }
+        cy.wait(500)
+        ListsSelectors.currenciesAddModalCurrencyTypeSelect().invoke('text').then((text) => {
+            invokedObj.currType = text.trim()
+        })
+        ListsSelectors.currenciesAddModalPaymentTypeSelect().invoke('text').then((text) => {
+            invokedObj.payType = text.trim()
+        })
+        ListsSelectors.currenciesAddModalNameInput().invoke('val').then((val) => {
+            invokedObj.name = val?.toString().trim()
+        })
+        ListsSelectors.currenciesAddModalSaveButton().should('be.visible').click()
+        return cy.wrap(null).then(() => invokedObj)
+    }
+
+    static currencyEdit = ({
+                               editCurrency,
+                               data,
+                               currencyType,
+                               paymentType,
+                               checkboxes,
+                           }: {
+        editCurrency: Cypress.Chainable<JQuery<HTMLElement>>;
+        data: Partial<productCurrenciesAddFields>;
+        currencyType?: productCurrenciesCurrencyTypes;
+        paymentType?: productCurrenciesPaymentTypes;
+        checkboxes?: productCurrenciesCheckboxes;
+    }) => {
+        const invokedObj: { currType?: string; payType?: string; name?: string } = {}
+
+        editCurrency.closest('tr').within(() => {
+            ListsSelectors.currenciesTbodyEditButtons().should("be.visible").click()
+        })
+        ListsSelectors.currenciesEditModal().should("be.visible")
+
+        if (data.name) {
+            ListsSelectors.currenciesEditModalNameInput()
+                .clear()
+                .type(data.name)
+                .should("have.value", data.name)
+        }
+
+        if (data.shortName) {
+            ListsSelectors.currenciesEditModalShortNameInput()
+                .clear()
+                .type(data.shortName)
+                .should("have.value", data.shortName)
+        }
+
+        if (data.rounding) {
+            ListsSelectors.currenciesEditModalRoundingInput()
+                .clear()
+                .type(String(data.rounding))
+                .should("have.value", String(data.rounding))
+        }
+        if (currencyType) {
+            ListsSelectors.currenciesEditModalCurrencyTypeSelect().click({ force: true })
+            ListsSelectors.currenciesEditModalCurrencyTypeSelectOptions().should("be.visible")
+            ListsSelectors.currenciesEditModalCurrencyTypeSelectOption(currencyType).click({ force: true })
+            ListsSelectors.currenciesEditModalCurrencyTypeSelectOptions().should("not.exist")
+        }
+
+        if (paymentType) {
+            ListsSelectors.currenciesEditModalPaymentTypeSelect().click({ force: true })
+            ListsSelectors.currenciesEditModalPaymentTypeSelectOptions().should("be.visible")
+            ListsSelectors.currenciesEditModalPaymentTypeSelectOption(paymentType).click({ force: true })
+            ListsSelectors.currenciesEditModalPaymentTypeSelectOptions().should("not.exist")
+        }
+        if (checkboxes) {
+            ListsSelectors.currenciesEditModalCheckboxes(checkboxes).check({ force: true })
+        }
+        cy.wait(500)
+        ListsSelectors.currenciesEditModalCurrencyTypeSelect().invoke("text").then((text) => {
+            invokedObj.currType = text.trim()
+        })
+        ListsSelectors.currenciesEditModalPaymentTypeSelect().invoke("text").then((text) => {
+            invokedObj.payType = text.trim()
+        })
+        ListsSelectors.currenciesEditModalNameInput().invoke("val").then((val) => {
+            invokedObj.name = val?.toString().trim()
+        })
+        ListsSelectors.currenciesEditModalSaveButton().should("be.visible").click()
+        return cy.wrap(null).then(() => invokedObj)
     }
 }

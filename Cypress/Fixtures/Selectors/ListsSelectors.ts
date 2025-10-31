@@ -518,6 +518,8 @@ export class ListsSelectors {
 
     static currenciesTablist = () => cy.get('ul[role="tablist"]')
 
+    static currenciesTablistOptions = () => cy.get('ul[role="tablist"] li')
+
     static currenciesTablistOptionCash = () => cy.get('ul[role="tablist"] li').eq(0)
 
     static currenciesTablistOptionCashless = () => cy.get('ul[role="tablist"] li').eq(1)
@@ -552,17 +554,31 @@ export class ListsSelectors {
 
     static currenciesAddModalRoundingInput = () => cy.get('[class*="_currency_"] input[name="roundingRules"]')
 
-    static currenciesAddModalCurrencyTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"]').eq(0)
+    static currenciesAddModalCurrencyTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"] [class*="select__value-container"]').eq(0)
 
-    static currenciesAddModalCurrencyTypeSelectOption = (index: number) => cy.get('[class*="_currency_"] [class*="react-select"]').eq(0).find('option').eq(index)
+    static currenciesAddModalCurrencyTypeSelectOption = (index: number) => {
+        return cy.get('body')
+            .find('.select__menu .select__option')
+            .eq(index)
+    }
 
-    static currenciesAddModalPaymentTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"]').eq(1)
+    static currenciesAddModalCurrencyTypeSelectOptions = () => cy.get('body').find('.select__menu .select__option')
 
-    static currenciesAddModalPaymentTypeSelectOption = (index: number) => cy.get('[class*="_currency_"] [class*="react-select"]').eq(1).find('option').eq(index)
+    static currenciesAddModalPaymentTypeSelect = () => cy.get('[class*="_currency_"] [class*="react-select"] [class*="select__value-container"]').eq(1)
+
+    static currenciesAddModalPaymentTypeSelectOption = (index: number) => {
+        return cy.get('body')
+            .find('.select__menu .select__option')
+            .eq(index)
+    }
+
+    static currenciesAddModalPaymentTypeSelectOptions = () => cy.get('body').find('.select__menu .select__option')
 
     static currenciesAddModalMainCheckbox = () => cy.get('[class*="_currency_"] input[type="checkbox"]').eq(0)
 
     static currenciesAddModalEnabledCheckbox = () => cy.get('[class*="_currency_"] input[type="checkbox"]').eq(1)
+
+    static currenciesAddModalCheckboxes = (checkbox: number) => cy.get('[class*="_currency_"] input[type="checkbox"]').eq(checkbox)
 
     static currenciesAddModalSaveButton = () => cy.get('[class*="_currency_"] button[type="submit"]')
 
@@ -582,29 +598,36 @@ export class ListsSelectors {
         .filter(':contains("Edit")')
         .find('input[name="roundingRules"]')
 
-    static currenciesEditModalCurrencyTypeSelect = () => cy.get('[class*="_currency_"]')
-        .filter(':contains("Edit")')
-        .find('[class*="react-select"]')
-        .eq(0)
+    static currenciesEditModalCurrencyTypeSelect = () =>
+        cy.get('[class*="_currency_"]')
+            .filter(':contains("Edit")')
+            .find('[class*="react-select"] [class*="select__value-container"]')
+            .eq(0)
 
-    static currenciesEditModalCurrencyTypeSelectOption = (index: number) => cy.get('[class*="_currency_"]')
-        .filter(':contains("Edit")')
-        .find('[class*="react-select"]')
-        .eq(0)
-        .find('option')
-        .eq(index)
+    static currenciesEditModalCurrencyTypeSelectOption = (index: number) => {
+        return cy.get('body')
+            .find('.select__menu .select__option')
+            .eq(index);
+    }
+    static currenciesEditModalCurrencyTypeSelectOptions = () =>
+        cy.get('body')
+            .find('.select__menu .select__option')
 
-    static currenciesEditModalPaymentTypeSelect = () => cy.get('[class*="_currency_"]')
-        .filter(':contains("Edit")')
-        .find('[class*="react-select"]')
-        .eq(1)
+    static currenciesEditModalPaymentTypeSelect = () =>
+        cy.get('[class*="_currency_"]')
+            .filter(':contains("Edit")')
+            .find('[class*="react-select"] [class*="select__value-container"]')
+            .eq(1)
 
-    static currenciesEditModalPaymentTypeSelectOption = (index: number) => cy.get('[class*="_currency_"]')
-        .filter(':contains("Edit")')
-        .find('[class*="react-select"]')
-        .eq(1)
-        .find('option')
-        .eq(index)
+    static currenciesEditModalPaymentTypeSelectOption = (index: number) => {
+        return cy.get('body')
+            .find('.select__menu .select__option')
+            .eq(index);
+    }
+
+    static currenciesEditModalPaymentTypeSelectOptions = () =>
+        cy.get('body')
+            .find('.select__menu .select__option')
 
     static currenciesEditModalMainCheckbox = () => cy.get('[class*="_currency_"]')
         .filter(':contains("Edit")')
@@ -615,6 +638,16 @@ export class ListsSelectors {
         .filter(':contains("Edit")')
         .find('input[type="checkbox"]')
         .eq(1)
+
+    static currenciesEditModalCheckbox = (index: number) => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[type="checkbox"]')
+        .eq(index)
+
+    static currenciesEditModalCheckboxes = (checkbox: number) => cy.get('[class*="_currency_"]')
+        .filter(':contains("Edit")')
+        .find('input[type="checkbox"]')
+        .eq(checkbox)
 
     static currenciesEditModalSaveButton = () => cy.get('[class*="_currency_"] button[type="submit"]:contains("Edit")')
 

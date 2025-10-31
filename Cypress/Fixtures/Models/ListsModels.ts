@@ -56,7 +56,7 @@ export enum productCurrenciesTheadSequence {
     Name = 1,
     ShortName = 2,
     Rounding = 3,
-    CurrencyType = 4,
+    PaymentType = 4,
     Main = 5,
     Enabled = 6,
     Edit = 7,
@@ -74,6 +74,11 @@ export enum productCurrenciesPaymentTypes {
     Fiscal = 1,
     Bonus = 2,
     Deposit = 3
+}
+
+export enum productCurrenciesCheckboxes {
+    Main = 0,
+    Enabled = 1
 }
 
 export interface unitOfMeasurementNameField {
@@ -106,5 +111,5 @@ export interface productSizeFields {
 export interface productCurrenciesAddFields {
     name?: string;
     shortName?: string;
-    rounding?: number;
+    rounding?: number
 }

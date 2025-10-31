@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "devDependencies": {
     "@types/chance": "^1.1.7",
-    "cypress": "^14.5.4",
-    "typescript": "^5.8.3"
+    "cypress": "^15.4.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "chance": "^1.1.13"
